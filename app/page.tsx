@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { BlurFade } from "@/components/ui/blur-fade";
 
 const GRADIENT_BG = `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
   radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
@@ -28,11 +27,22 @@ const GRADIENT_BTN_STYLE = {
   backgroundColor: "#99ceff",
 };
 
+const TYPEWRITER_TEXT = "Are you looking for the human or the AI?";
+
 export default function SplashPage() {
   const [active, setActive] = useState<"left" | "right" | null>(null);
   const [topPanel, setTopPanel] = useState<"left" | "right">("left");
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  // Mount animation states
+  const [crossroadsVisible, setCrossroadsVisible] = useState(false);
+  const [typewriterText, setTypewriterText] = useState("");
+  const [captionVisible, setCaptionVisible] = useState(false);
+  const [leftContentVisible, setLeftContentVisible] = useState(false);
+  const [rightContentVisible, setRightContentVisible] = useState(false);
+  const [leftImageUnblurred, setLeftImageUnblurred] = useState(false);
+  const [rightImageUnblurred, setRightImageUnblurred] = useState(false);
 
   useEffect(() => {
     const check = () => setIsLargeScreen(window.innerWidth >= 1440);
@@ -40,6 +50,50 @@ export default function SplashPage() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Mount animation timeline
+  useEffect(() => {
+    // t=0.3s — "You've reached a crossroads." fades in + moves down
+    const t1 = setTimeout(() => setCrossroadsVisible(true), 300);
+
+    // t=1.2s — typewriter start
+    let charIndex = 0;
+    let typewriterInterval: ReturnType<typeof setInterval>;
+    const typewriterTimeout = setTimeout(() => {
+      typewriterInterval = setInterval(() => {
+        charIndex++;
+        setTypewriterText(TYPEWRITER_TEXT.slice(0, charIndex));
+        if (charIndex >= TYPEWRITER_TEXT.length) {
+          clearInterval(typewriterInterval);
+        }
+      }, 40);
+    }, 1200);
+
+    // After typewriter finishes (~2.8s) + 0.4s = 3.2s — "Same mind. Different form."
+    const t3 = setTimeout(() => setCaptionVisible(true), 3200);
+
+    // t=3.5s — Left content block + image unblur
+    const t4 = setTimeout(() => {
+      setLeftContentVisible(true);
+      setLeftImageUnblurred(true);
+    }, 3500);
+
+    // t=4.2s — Right content block + image unblur
+    const t5 = setTimeout(() => {
+      setRightContentVisible(true);
+      setRightImageUnblurred(true);
+    }, 4200);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(typewriterTimeout);
+      clearInterval(typewriterInterval);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
+    };
+  }, []);
+
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const router = useRouter();
@@ -103,33 +157,46 @@ export default function SplashPage() {
         }}
         className="relative bg-white overflow-hidden"
       >
-
         <div
-          className="flex flex-col items-center justify-center gap-3 w-full text-center"
-          style={{ position: "absolute", left: 0, width: active === "left" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          style={{
+            position: "absolute",
+            left: 0,
+            width: active === "left" ? "100vw" : "50vw",
+            top: "calc(50% + 60px)",
+            transform: "translateY(-50%)",
+            transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
         >
-          <BlurFade delay={0.25}>
-            <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-              <Image src="/angelo-human.jpg" alt="Rhaymondo" width={120} height={120} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
-            </div>
-          </BlurFade>
-          <BlurFade delay={0.3}>
-            <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
-          </BlurFade>
-          <p
-            className="text-lg font-semibold text-black/60 overflow-hidden"
+          <div
+            className="flex flex-col items-center justify-center gap-3 w-full text-center"
             style={{
-              opacity: active === "left" && countdown !== null ? 1 : 0,
-              maxHeight: active === "left" && countdown !== null ? "2rem" : "0",
-              transform: active === "left" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
+              opacity: leftContentVisible ? 1 : 0,
+              transition: "opacity 600ms ease",
             }}
           >
-            {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
-          </p>
-          <BlurFade delay={0.4}>
+            <div
+              style={{
+                width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto",
+                filter: leftImageUnblurred ? "blur(0px)" : "blur(12px)",
+                transition: "filter 800ms ease",
+              }}
+            >
+              <Image src="/angelo-human.jpg" alt="Rhaymondo" width={120} height={120} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
+            </div>
+            <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
+            <p
+              className="text-lg font-semibold text-black/60 overflow-hidden"
+              style={{
+                opacity: active === "left" && countdown !== null ? 1 : 0,
+                maxHeight: active === "left" && countdown !== null ? "2rem" : "0",
+                transform: active === "left" && countdown !== null ? "translateY(0)" : "translateY(8px)",
+                transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
+              }}
+            >
+              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
+            </p>
             <p className="text-sm text-black/30">The human behind it.</p>
-          </BlurFade>
+          </div>
         </div>
       </div>
 
@@ -147,35 +214,48 @@ export default function SplashPage() {
         }}
         className="relative bg-[#0a0a0a] overflow-hidden"
       >
-
         <div
-          className="flex flex-col items-center justify-center gap-3 w-full text-center"
-          style={{ position: "absolute", right: 0, width: active === "right" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          style={{
+            position: "absolute",
+            right: 0,
+            width: active === "right" ? "100vw" : "50vw",
+            top: "calc(50% + 60px)",
+            transform: "translateY(-50%)",
+            transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
         >
-          <BlurFade delay={0.2}>
-            <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
+          <div
+            className="flex flex-col items-center justify-center gap-3 w-full text-center"
+            style={{
+              opacity: rightContentVisible ? 1 : 0,
+              transition: "opacity 600ms ease",
+            }}
+          >
+            <div
+              style={{
+                width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto",
+                filter: rightImageUnblurred ? "blur(0px)" : "blur(12px)",
+                transition: "filter 800ms ease",
+              }}
+            >
               <Image src="/angelo.jpg" alt="Rhaiymondo" width={120} height={120} className="object-cover w-full h-full" style={{ transform: "scale(1.1)", transformOrigin: "center center" }} />
             </div>
-          </BlurFade>
-          <BlurFade delay={0.25}>
             <p className="text-2xl md:text-3xl font-bold text-white">
               Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
             </p>
-          </BlurFade>
-          <p
-            className="text-lg font-semibold text-white/60 overflow-hidden"
-            style={{
-              opacity: active === "right" && countdown !== null ? 1 : 0,
-              maxHeight: active === "right" && countdown !== null ? "2rem" : "0",
-              transform: active === "right" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
-            }}
-          >
-            {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
-          </p>
-          <BlurFade delay={0.45}>
+            <p
+              className="text-lg font-semibold text-white/60 overflow-hidden"
+              style={{
+                opacity: active === "right" && countdown !== null ? 1 : 0,
+                maxHeight: active === "right" && countdown !== null ? "2rem" : "0",
+                transform: active === "right" && countdown !== null ? "translateY(0)" : "translateY(8px)",
+                transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
+              }}
+            >
+              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
+            </p>
             <p className="text-sm text-white/30">The AI built from his work.</p>
-          </BlurFade>
+          </div>
         </div>
       </div>
 
@@ -213,29 +293,50 @@ export default function SplashPage() {
           transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        <BlurFade delay={0.1}>
-          <p className="text-xs tracking-widest uppercase font-semibold text-white">
-            You&#39;ve reached a crossroads.
-          </p>
-        </BlurFade>
-        <BlurFade delay={0.2}>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl text-white">
-            Are you looking for the human or the AI?
-          </h1>
-        </BlurFade>
+        {/* "You've reached a crossroads." — fades in + moves down from above */}
+        <p
+          className="text-xs tracking-widest uppercase font-semibold text-white"
+          style={{
+            opacity: crossroadsVisible ? 1 : 0,
+            transform: crossroadsVisible ? "translateY(0)" : "translateY(-16px)",
+            transition: "opacity 600ms ease, transform 600ms ease",
+          }}
+        >
+          You&#39;ve reached a crossroads.
+        </p>
+
+        {/* Typewriter headline */}
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl text-white" style={{ minHeight: "1.2em" }}>
+          {typewriterText}
+          {typewriterText.length > 0 && typewriterText.length < TYPEWRITER_TEXT.length && (
+            <span style={{ opacity: 1, animation: "blink 0.7s step-end infinite" }}>|</span>
+          )}
+        </h1>
       </div>
 
-      {/* BOTTOM CAPTION */}
+      {/* BOTTOM CAPTION — "Same mind. Different form." fades in + moves up from below */}
       <div
         className="absolute inset-x-0 bottom-8 pointer-events-none z-20 flex justify-center"
         style={{ mixBlendMode: "difference" }}
       >
-        <BlurFade delay={0.5}>
-          <span className="text-sm font-medium text-white opacity-60">
-            Same mind. Different form.
-          </span>
-        </BlurFade>
+        <span
+          className="text-sm font-medium text-white opacity-60"
+          style={{
+            opacity: captionVisible ? 0.6 : 0,
+            transform: captionVisible ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 600ms ease, transform 600ms ease",
+          }}
+        >
+          Same mind. Different form.
+        </span>
       </div>
+
+      <style>{`
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
 
     </div>
   );
