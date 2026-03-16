@@ -112,9 +112,9 @@ export default function SplashPage() {
             <p
               key={active}
               className="text-lg font-semibold text-black/60"
-              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards", opacity: 0 }}
+              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
             >
-              {countdown !== null ? `Visiting in ${countdown}` : ""}
+              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
           )}
           <BlurFade delay={0.4}>
@@ -156,9 +156,9 @@ export default function SplashPage() {
             <p
               key={active}
               className="text-lg font-semibold text-white/60"
-              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards", opacity: 0 }}
+              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
             >
-              {countdown !== null ? `Visiting in ${countdown}` : ""}
+              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
           )}
           <BlurFade delay={0.45}>
