@@ -32,9 +32,17 @@ export default function SplashPage() {
   const [active, setActive] = useState<"left" | "right" | null>(null);
   const [topPanel, setTopPanel] = useState<"left" | "right">("left");
   const [countdown, setCountdown] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const startCountdown = useCallback((side: "left" | "right") => {
     setCountdown(3);
@@ -75,9 +83,112 @@ export default function SplashPage() {
     }, 600);
   };
 
+  const handleMobileTap = (side: "left" | "right") => {
+    if (side === "left") {
+      window.location.href = "https://rhaymondo.com";
+    } else {
+      router.push("/home");
+    }
+  };
+
   const leftW = active === "left" ? "90vw" : "50vw";
   const rightW = active === "right" ? "90vw" : "50vw";
 
+  // ── MOBILE LAYOUT ────────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div className="relative h-screen w-screen overflow-hidden flex flex-col" style={{ isolation: "isolate" }}>
+
+        {/* Headline — fixed at top, mix-blend difference */}
+        <div
+          className="absolute inset-x-0 top-0 pt-12 z-20 flex flex-col items-center text-center gap-3 px-6 pointer-events-none"
+          style={{ mixBlendMode: "difference" }}
+        >
+          <BlurFade delay={0.1}>
+            <p className="text-xs tracking-widest uppercase font-semibold text-white">
+              You&#39;ve reached a crossroads.
+            </p>
+          </BlurFade>
+          <BlurFade delay={0.2}>
+            <h1 className="text-2xl font-bold tracking-tight leading-tight text-white">
+              Are you looking for the human or the AI?
+            </h1>
+          </BlurFade>
+        </div>
+
+        {/* TOP PANEL — white, Rhaymondo (human) */}
+        <div
+          className="bg-white flex items-center justify-center"
+          style={{ height: "50vh", width: "100vw", flexShrink: 0 }}
+          onClick={() => handleMobileTap("left")}
+        >
+          <div className="flex flex-col items-center gap-5 text-center">
+            <BlurFade delay={0.25}>
+              <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
+                <Image src="/angelo-human.jpg" alt="Rhaymondo" width={100} height={100} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.3}>
+              <p className="text-2xl font-bold text-black">Rhaymondo</p>
+            </BlurFade>
+            <BlurFade delay={0.35}>
+              <div className="inline-block px-10 py-4 rounded-xl text-lg font-semibold border-2 border-black text-black min-w-[160px] text-center">
+                Enter
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.4}>
+              <p className="text-sm text-black/30">The human behind it.</p>
+            </BlurFade>
+          </div>
+        </div>
+
+        {/* BOTTOM PANEL — dark, Rhaiymondo (AI) */}
+        <div
+          className="bg-[#0a0a0a] flex items-center justify-center"
+          style={{ height: "50vh", width: "100vw", flexShrink: 0 }}
+          onClick={() => handleMobileTap("right")}
+        >
+          <div className="flex flex-col items-center gap-5 text-center">
+            <BlurFade delay={0.2}>
+              <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
+                <Image src="/angelo.jpg" alt="Rhaiymondo" width={100} height={100} className="object-cover w-full h-full" style={{ transform: "scale(1.1)", transformOrigin: "center center" }} />
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.25}>
+              <p className="text-2xl font-bold text-white">
+                Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
+              </p>
+            </BlurFade>
+            <BlurFade delay={0.35}>
+              <div className="inline-block p-[2px] rounded-xl" style={GRADIENT_BTN_STYLE}>
+                <span className="block px-10 py-4 rounded-[10px] bg-[#0a0a0a] text-lg font-semibold text-white min-w-[160px] text-center">
+                  Enter
+                </span>
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.45}>
+              <p className="text-sm text-white/30">The AI built from his work.</p>
+            </BlurFade>
+          </div>
+        </div>
+
+        {/* Bottom caption */}
+        <div
+          className="absolute inset-x-0 bottom-8 pointer-events-none z-20 flex justify-center"
+          style={{ mixBlendMode: "difference" }}
+        >
+          <BlurFade delay={0.5}>
+            <span className="text-sm font-medium text-white opacity-60">
+              Same mind. Different form.
+            </span>
+          </BlurFade>
+        </div>
+
+      </div>
+    );
+  }
+
+  // ── DESKTOP LAYOUT ───────────────────────────────────────────────────────────
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ isolation: "isolate" }}>
 
