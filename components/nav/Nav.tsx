@@ -23,7 +23,7 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Left: branding */}
         <a href="/home" className="flex flex-col leading-tight" aria-label="Rhaiymondo — back to top">
-          <span className="font-bold text-white text-base tracking-tight">
+          <span className="font-bold text-white text-xl tracking-tight">
             Rhaiymondo
           </span>
         </a>
