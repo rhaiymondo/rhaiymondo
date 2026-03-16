@@ -38,6 +38,7 @@ export default function SplashPage() {
   // Mount animation states
   const [crossroadsVisible, setCrossroadsVisible] = useState(false);
   const [typewriterText, setTypewriterText] = useState("");
+  const [typewriterDone, setTypewriterDone] = useState(false);
   const [captionVisible, setCaptionVisible] = useState(false);
   const [leftContentVisible, setLeftContentVisible] = useState(false);
   const [rightContentVisible, setRightContentVisible] = useState(false);
@@ -65,20 +66,14 @@ export default function SplashPage() {
         setTypewriterText(TYPEWRITER_TEXT.slice(0, charIndex));
         if (charIndex >= TYPEWRITER_TEXT.length) {
           clearInterval(typewriterInterval);
+          setTypewriterDone(true);
         }
       }, 75);
     }, 1200);
 
-    // After typewriter finishes (~2.8s) + 0.4s = 3.2s — "Same mind. Different form."
-    const t3 = setTimeout(() => setCaptionVisible(true), 3200);
+    // These are now driven by typewriterDone state — see separate useEffect below
 
-    // t=3.5s — Left content block + image unblur
-    const t4 = setTimeout(() => {
-      setLeftContentVisible(true);
-      setLeftImageUnblurred(true);
-    }, 3500);
-
-    // t=4.2s — Right content block + image unblur
+    // t=4.2s — Right content block + image unblur (placeholder, overridden below)
     const t5 = setTimeout(() => {
       setRightContentVisible(true);
       setRightImageUnblurred(true);
@@ -88,11 +83,18 @@ export default function SplashPage() {
       clearTimeout(t1);
       clearTimeout(typewriterTimeout);
       clearInterval(typewriterInterval);
-      clearTimeout(t3);
-      clearTimeout(t4);
       clearTimeout(t5);
     };
   }, []);
+
+  // When typewriter finishes → caption + content in sequence
+  useEffect(() => {
+    if (!typewriterDone) return;
+    const t1 = setTimeout(() => setCaptionVisible(true), 400);
+    const t2 = setTimeout(() => { setLeftContentVisible(true); setLeftImageUnblurred(true); }, 700);
+    const t3 = setTimeout(() => { setRightContentVisible(true); setRightImageUnblurred(true); }, 1400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [typewriterDone]);
 
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -288,8 +290,8 @@ export default function SplashPage() {
         className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
         style={{
           mixBlendMode: "difference",
-          top: active ? "2rem" : isLargeScreen ? "50%" : "2rem",
-          transform: active ? "translateY(0)" : isLargeScreen ? "translateY(-50%)" : "translateY(0)",
+          top: active || typewriterDone ? "2rem" : "50%",
+          transform: active || typewriterDone ? "translateY(0)" : "translateY(-50%)",
           transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
