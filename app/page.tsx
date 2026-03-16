@@ -32,6 +32,14 @@ export default function SplashPage() {
   const [active, setActive] = useState<"left" | "right" | null>(null);
   const [topPanel, setTopPanel] = useState<"left" | "right">("left");
   const [countdown, setCountdown] = useState<number | null>(null);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsLargeScreen(window.innerWidth >= 1440);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const router = useRouter();
@@ -200,8 +208,8 @@ export default function SplashPage() {
         className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
         style={{
           mixBlendMode: "difference",
-          top: active ? "2rem" : "50%",
-          transform: active ? "translateY(0)" : "translateY(-50%)",
+          top: active ? "2rem" : isLargeScreen ? "50%" : "2rem",
+          transform: active ? "translateY(0)" : isLargeScreen ? "translateY(-50%)" : "translateY(0)",
           transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
