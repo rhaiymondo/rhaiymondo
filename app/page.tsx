@@ -200,7 +200,9 @@ export default function SplashPage() {
         className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
         style={{
           mixBlendMode: "difference",
-          top: "2rem",
+          top: active ? "2rem" : "50%",
+          transform: active ? "translateY(0)" : "translateY(-50%)",
+          transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         <BlurFade delay={0.1}>
