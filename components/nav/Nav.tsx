@@ -68,7 +68,7 @@ export default function Nav() {
             className="text-sm border-blue-500/60 text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 hover:border-blue-400 bg-transparent"
             aria-label="Talk to Rhaiymondo (coming soon)"
           >
-            Talk to Rh<span style={{
+            <span style={{
               backgroundImage: `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
                 radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
                 radial-gradient(at 3% 34%, hsla(70,74%,71%,1) 0px, transparent 50%),
@@ -82,7 +82,7 @@ export default function Nav() {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-            }}>ai</span>ymondo
+            }}>Talk to Rhaiymondo</span>
           </Button>
         </nav>
       </div>
