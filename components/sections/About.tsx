@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section id="about" className="bg-[#0a0a0a]">
       <TextReveal>
-        {"Angelo is a senior Next.js engineer at Bol.com, building data-driven dashboards by day and vibe-coding AI tools by night. rhaymondo.com is where his real projects live. rhaiymondo.com is what they became."}
+        {"Angelo is a senior Next.js engineer at Bol.com, building data-driven dashboards. rhaymondo.com is where his real projects live. rhaiymondo.com is what they became."}
       </TextReveal>
       <div className="max-w-3xl mx-auto px-8 pb-32 flex justify-center">
         <a
