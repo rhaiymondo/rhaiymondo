@@ -79,7 +79,7 @@ export default function Hero() {
             className="mb-6 text-6xl font-extrabold text-white md:text-8xl"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Hello 👋, I am
+            Hello <span className="wave-emoji">👋</span>, I am
             <br />
             <span
               className="cursor-default inline-block"
