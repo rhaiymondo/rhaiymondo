@@ -44,24 +44,27 @@ export default function SplashPage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const startCountdown = useCallback((side: "left" | "right") => {
-    setCountdown(3);
-    let count = 3;
-    countdownTimer.current = setInterval(() => {
-      count--;
-      if (count === 0) {
-        clearInterval(countdownTimer.current!);
-        setCountdown(null);
-        if (side === "left") {
-          window.location.href = "https://rhaymondo.com";
+  const startCountdown = useCallback(
+    (side: "left" | "right") => {
+      setCountdown(3);
+      let count = 3;
+      countdownTimer.current = setInterval(() => {
+        count--;
+        if (count === 0) {
+          clearInterval(countdownTimer.current!);
+          setCountdown(null);
+          if (side === "left") {
+            window.location.href = "https://rhaymondo.com";
+          } else {
+            router.push("/home");
+          }
         } else {
-          router.push("/home");
+          setCountdown(count);
         }
-      } else {
-        setCountdown(count);
-      }
-    }, 1000);
-  }, [router]);
+      }, 1000);
+    },
+    [router]
+  );
 
   const stopCountdown = useCallback(() => {
     if (countdownTimer.current) clearInterval(countdownTimer.current);
@@ -91,17 +94,16 @@ export default function SplashPage() {
     }
   };
 
-  const leftW = active === "left" ? "90vw" : "50vw";
-  const rightW = active === "right" ? "90vw" : "50vw";
-
   // ── MOBILE LAYOUT ────────────────────────────────────────────────────────────
   if (isMobile) {
     return (
-      <div className="relative h-screen w-screen overflow-hidden flex flex-col" style={{ isolation: "isolate" }}>
-
-        {/* Headline — fixed at top, mix-blend difference */}
+      <div
+        className="relative h-screen w-screen overflow-hidden flex flex-col items-center"
+        style={{ background: "#0a0a0a", isolation: "isolate" }}
+      >
+        {/* Headline */}
         <div
-          className="absolute inset-x-0 top-0 pt-12 z-20 flex flex-col items-center text-center gap-3 px-6 pointer-events-none"
+          className="pt-16 px-6 text-center z-20 pointer-events-none flex flex-col gap-3"
           style={{ mixBlendMode: "difference" }}
         >
           <BlurFade delay={0.1}>
@@ -116,59 +118,96 @@ export default function SplashPage() {
           </BlurFade>
         </div>
 
-        {/* TOP PANEL — white, Rhaymondo (human) */}
-        <div
-          className="bg-white flex items-center justify-center"
-          style={{ height: "40vh", width: "100vw", flexShrink: 0, marginTop: "20vh" }}
-          onClick={() => handleMobileTap("left")}
-        >
-          <div className="flex flex-col items-center gap-5 text-center">
-            <BlurFade delay={0.25}>
-              <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-                <Image src="/angelo-human.jpg" alt="Rhaymondo" width={100} height={100} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
-              </div>
-            </BlurFade>
-            <BlurFade delay={0.3}>
-              <p className="text-2xl font-bold text-black">Rhaymondo</p>
-            </BlurFade>
-            <BlurFade delay={0.35}>
-              <div className="inline-block px-10 py-4 rounded-xl text-lg font-semibold border-2 border-black text-black min-w-[160px] text-center">
-                Enter
-              </div>
-            </BlurFade>
-            <BlurFade delay={0.4}>
-              <p className="text-sm text-black/30">The human behind it.</p>
-            </BlurFade>
-          </div>
-        </div>
-
-        {/* BOTTOM PANEL — dark, Rhaiymondo (AI) */}
-        <div
-          className="bg-[#0a0a0a] flex items-center justify-center"
-          style={{ height: "40vh", width: "100vw", flexShrink: 0 }}
-          onClick={() => handleMobileTap("right")}
-        >
-          <div className="flex flex-col items-center gap-5 text-center">
-            <BlurFade delay={0.2}>
-              <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-                <Image src="/angelo.jpg" alt="Rhaiymondo" width={100} height={100} className="object-cover w-full h-full" style={{ transform: "scale(1.1)", transformOrigin: "center center" }} />
-              </div>
-            </BlurFade>
-            <BlurFade delay={0.25}>
-              <p className="text-2xl font-bold text-white">
-                Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
-              </p>
-            </BlurFade>
-            <BlurFade delay={0.35}>
-              <div className="inline-block p-[2px] rounded-xl" style={GRADIENT_BTN_STYLE}>
-                <span className="block px-10 py-4 rounded-[10px] bg-[#0a0a0a] text-lg font-semibold text-white min-w-[160px] text-center">
+        {/* Stacked panels */}
+        <div className="flex flex-col w-full mt-8 gap-3">
+          {/* Top panel — white, Rhaymondo (human) */}
+          <div
+            className="bg-white w-full flex items-center justify-center cursor-pointer"
+            style={{ height: "38vh" }}
+            onClick={() => handleMobileTap("left")}
+          >
+            <div className="flex flex-col items-center gap-5 text-center">
+              <BlurFade delay={0.25}>
+                <div
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    margin: "0 auto",
+                  }}
+                >
+                  <Image
+                    src="/angelo-human.jpg"
+                    alt="Rhaymondo"
+                    width={100}
+                    height={100}
+                    className="object-cover w-full h-full"
+                    style={{
+                      objectPosition: "center 15%",
+                      transform: "scale(1.4)",
+                      transformOrigin: "center 15%",
+                    }}
+                  />
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.3}>
+                <p className="text-2xl font-bold text-black">Rhaymondo</p>
+              </BlurFade>
+              <BlurFade delay={0.35}>
+                <div className="inline-block px-10 py-4 rounded-xl text-lg font-semibold border-2 border-black text-black min-w-[160px] text-center">
                   Enter
-                </span>
-              </div>
-            </BlurFade>
-            <BlurFade delay={0.45}>
-              <p className="text-sm text-white/30">The AI built from his work.</p>
-            </BlurFade>
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.4}>
+                <p className="text-sm text-black/30">The human behind it.</p>
+              </BlurFade>
+            </div>
+          </div>
+
+          {/* Bottom panel — dark, Rhaiymondo (AI) */}
+          <div
+            className="bg-[#0a0a0a] w-full flex items-center justify-center cursor-pointer"
+            style={{ height: "38vh" }}
+            onClick={() => handleMobileTap("right")}
+          >
+            <div className="flex flex-col items-center gap-5 text-center">
+              <BlurFade delay={0.2}>
+                <div
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    margin: "0 auto",
+                  }}
+                >
+                  <Image
+                    src="/angelo.jpg"
+                    alt="Rhaiymondo"
+                    width={100}
+                    height={100}
+                    className="object-cover w-full h-full"
+                    style={{ transform: "scale(1.1)", transformOrigin: "center center" }}
+                  />
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.25}>
+                <p className="text-2xl font-bold text-white">
+                  Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
+                </p>
+              </BlurFade>
+              <BlurFade delay={0.35}>
+                <div className="inline-block p-[2px] rounded-xl" style={GRADIENT_BTN_STYLE}>
+                  <span className="block px-10 py-4 rounded-[10px] bg-[#0a0a0a] text-lg font-semibold text-white min-w-[160px] text-center">
+                    Enter
+                  </span>
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.45}>
+                <p className="text-sm text-white/30">The AI built from his work.</p>
+              </BlurFade>
+            </div>
           </div>
         </div>
 
@@ -183,37 +222,63 @@ export default function SplashPage() {
             </span>
           </BlurFade>
         </div>
-
       </div>
     );
   }
 
   // ── DESKTOP LAYOUT ───────────────────────────────────────────────────────────
-  return (
-    <div className="relative h-screen w-screen overflow-hidden" style={{ isolation: "isolate" }}>
+  const leftW = active === "left" ? "90vw" : "50vw";
+  const rightW = active === "right" ? "90vw" : "50vw";
 
+  return (
+    <div
+      className="relative h-screen w-screen overflow-hidden"
+      style={{ isolation: "isolate" }}
+    >
       {/* LEFT PANEL */}
       <div
         onMouseEnter={() => handleEnter("left")}
         onMouseLeave={handleLeave}
+        className="absolute top-0 left-0 h-full bg-white overflow-hidden"
         style={{
           width: leftW,
           minWidth: "50vw",
-          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
-          position: "absolute",
-          top: 0, left: 0, height: "100%",
           zIndex: topPanel === "left" ? 10 : 1,
+          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
-        className="relative bg-white overflow-hidden"
       >
-
+        {/* Left content — anchored to left 50vw, stationary during panel expansion */}
         <div
-          className="flex flex-col items-center justify-center gap-5 w-full text-center"
-          style={{ position: "absolute", left: 0, width: active === "left" ? "100vw" : "50vw", top: "50%", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          className="absolute flex flex-col items-center gap-5 text-center"
+          style={{
+            left: 0,
+            width: "50vw",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
         >
           <BlurFade delay={0.25}>
-            <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-              <Image src="/angelo-human.jpg" alt="Rhaymondo" width={120} height={120} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
+            <div
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: "50%",
+                overflow: "hidden",
+                margin: "0 auto",
+              }}
+            >
+              <Image
+                src="/angelo-human.jpg"
+                alt="Rhaymondo"
+                width={120}
+                height={120}
+                className="object-cover w-full h-full"
+                style={{
+                  objectPosition: "center 15%",
+                  transform: "scale(1.4)",
+                  transformOrigin: "center 15%",
+                }}
+              />
             </div>
           </BlurFade>
           <BlurFade delay={0.3}>
@@ -234,24 +299,42 @@ export default function SplashPage() {
       <div
         onMouseEnter={() => handleEnter("right")}
         onMouseLeave={handleLeave}
+        className="absolute top-0 right-0 h-full bg-[#0a0a0a] overflow-hidden"
         style={{
           width: rightW,
           minWidth: "50vw",
-          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
-          position: "absolute",
-          top: 0, right: 0, height: "100%",
           zIndex: topPanel === "right" ? 10 : 1,
+          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
-        className="relative bg-[#0a0a0a] overflow-hidden"
       >
-
+        {/* Right content — anchored to right 50vw, stationary during panel expansion */}
         <div
-          className="flex flex-col items-center justify-center gap-5 w-full text-center"
-          style={{ position: "absolute", right: 0, width: active === "right" ? "100vw" : "50vw", top: "50%", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          className="absolute flex flex-col items-center gap-5 text-center"
+          style={{
+            right: 0,
+            width: "50vw",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
         >
           <BlurFade delay={0.2}>
-            <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-              <Image src="/angelo.jpg" alt="Rhaiymondo" width={120} height={120} className="object-cover w-full h-full" style={{ transform: "scale(1.1)", transformOrigin: "center center" }} />
+            <div
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: "50%",
+                overflow: "hidden",
+                margin: "0 auto",
+              }}
+            >
+              <Image
+                src="/angelo.jpg"
+                alt="Rhaiymondo"
+                width={120}
+                height={120}
+                className="object-cover w-full h-full"
+                style={{ transform: "scale(1.1)", transformOrigin: "center center" }}
+              />
             </div>
           </BlurFade>
           <BlurFade delay={0.25}>
@@ -262,7 +345,9 @@ export default function SplashPage() {
           <BlurFade delay={0.35}>
             <div className="inline-block p-[2px] rounded-xl" style={GRADIENT_BTN_STYLE}>
               <span className="block px-10 py-4 rounded-[10px] bg-[#0a0a0a] text-lg font-semibold text-white min-w-[160px] text-center">
-                {active === "right" && countdown !== null ? `Visiting in ${countdown}` : "Enter"}
+                {active === "right" && countdown !== null
+                  ? `Visiting in ${countdown}`
+                  : "Enter"}
               </span>
             </div>
           </BlurFade>
@@ -272,7 +357,7 @@ export default function SplashPage() {
         </div>
       </div>
 
-      {/* VERTICAL LABELS — shown on the 10vw strip of the non-active panel */}
+      {/* VERTICAL STRIP LABELS — visible on the 10vw exposed strip of the inactive panel */}
       <div
         className="absolute top-0 right-0 h-full w-[10vw] flex items-center justify-center pointer-events-none z-30"
         style={{ opacity: active === "left" ? 1 : 0, transition: "opacity 300ms ease" }}
@@ -296,14 +381,16 @@ export default function SplashPage() {
         </span>
       </div>
 
-      {/* HEADLINE — centered by default, moves to top on hover */}
+      {/* HEADLINE — vertically centered by default, rises to top on hover */}
       <div
         className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
         style={{
           mixBlendMode: "difference",
-          top: active ? "2rem" : "50%",
+          top: active ? "0" : "50%",
+          paddingTop: active ? "3rem" : "0",
           transform: active ? "translateY(0)" : "translateY(-50%)",
-          transition: "top 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          transition:
+            "top 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1), padding-top 600ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
         <BlurFade delay={0.1}>
@@ -329,7 +416,6 @@ export default function SplashPage() {
           </span>
         </BlurFade>
       </div>
-
     </div>
   );
 }
