@@ -185,10 +185,15 @@ export default function SplashPage() {
         </span>
       </div>
 
-      {/* HEADLINE — top center, mix-blend-mode */}
+      {/* HEADLINE — centered by default, moves to top on hover */}
       <div
-        className="absolute inset-x-0 top-0 pt-16 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
-        style={{ mixBlendMode: "difference" }}
+        className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
+        style={{
+          mixBlendMode: "difference",
+          top: active ? "2rem" : "50%",
+          transform: active ? "translateY(0)" : "translateY(-50%)",
+          transition: "top 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
       >
         <BlurFade delay={0.1}>
           <p className="text-xs tracking-widest uppercase font-semibold text-white">
