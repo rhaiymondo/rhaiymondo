@@ -279,13 +279,15 @@ export default function SplashPage() {
       >
         {/* Main content — pinned to left half so it stays centered during expansion */}
         <div
-          className="flex flex-col items-center gap-5 text-center"
+          className="flex flex-col items-center justify-center gap-5 text-center"
           style={{
             width: "50vw",
             position: "absolute",
             left: 0,
             top: "50%",
             transform: "translateY(-50%)",
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <BlurFade delay={0.25}>
@@ -355,13 +357,15 @@ export default function SplashPage() {
       >
         {/* Main content — pinned to right half so it stays centered during expansion */}
         <div
-          className="flex flex-col items-center gap-5 text-center"
+          className="flex flex-col items-center justify-center gap-5 text-center"
           style={{
             width: "50vw",
             position: "absolute",
             right: 0,
             top: "50%",
             transform: "translateY(-50%)",
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <BlurFade delay={0.2}>
