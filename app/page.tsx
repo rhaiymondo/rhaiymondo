@@ -97,7 +97,7 @@ export default function SplashPage() {
       >
 
         <div
-          className="flex flex-col items-center justify-center gap-5 w-full text-center"
+          className="flex flex-col items-center justify-center gap-3 w-full text-center"
           style={{ position: "absolute", left: 0, width: active === "left" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <BlurFade delay={0.25}>
@@ -141,7 +141,7 @@ export default function SplashPage() {
       >
 
         <div
-          className="flex flex-col items-center justify-center gap-5 w-full text-center"
+          className="flex flex-col items-center justify-center gap-3 w-full text-center"
           style={{ position: "absolute", right: 0, width: active === "right" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <BlurFade delay={0.2}>
