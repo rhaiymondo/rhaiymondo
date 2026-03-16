@@ -26,6 +26,7 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   }
 
   const words = children.split(" ")
+  const coverage = 0.8 // words complete at 80% of scroll
 
   return (
     <div ref={sectionRef} className={cn("relative z-0 h-[300vh]", className)}>
@@ -40,8 +41,8 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
           }
         >
           {words.map((word, i) => {
-            const start = i / words.length
-            const end = start + 1 / words.length
+            const start = (i / words.length) * coverage
+            const end = start + (1 / words.length) * coverage
             return (
               <Word key={i} progress={scrollYProgress} range={[start, end]}>
                 {word}
