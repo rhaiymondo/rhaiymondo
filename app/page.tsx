@@ -109,15 +109,15 @@ export default function SplashPage() {
             <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
           </BlurFade>
           <p
-            className="text-lg font-semibold text-black/60"
+            className="text-lg font-semibold text-black/60 overflow-hidden"
             style={{
               opacity: active === "left" && countdown !== null ? 1 : 0,
+              maxHeight: active === "left" && countdown !== null ? "2rem" : "0",
               transform: active === "left" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
-              minHeight: "1.75rem",
+              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
             }}
           >
-            {countdown !== null ? `Visiting in ${countdown}` : ""}
+            {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
           </p>
           <BlurFade delay={0.4}>
             <p className="text-sm text-black/30">The human behind it.</p>
@@ -155,15 +155,15 @@ export default function SplashPage() {
             </p>
           </BlurFade>
           <p
-            className="text-lg font-semibold text-white/60"
+            className="text-lg font-semibold text-white/60 overflow-hidden"
             style={{
               opacity: active === "right" && countdown !== null ? 1 : 0,
+              maxHeight: active === "right" && countdown !== null ? "2rem" : "0",
               transform: active === "right" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
-              minHeight: "1.75rem",
+              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
             }}
           >
-            {countdown !== null ? `Visiting in ${countdown}` : ""}
+            {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
           </p>
           <BlurFade delay={0.45}>
             <p className="text-sm text-white/30">The AI built from his work.</p>
