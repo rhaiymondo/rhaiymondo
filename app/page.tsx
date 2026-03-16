@@ -108,15 +108,17 @@ export default function SplashPage() {
           <BlurFade delay={0.3}>
             <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
           </BlurFade>
-          {active === "left" && (
-            <p
-              key={active}
-              className="text-lg font-semibold text-black/60"
-              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
-            >
-              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
-            </p>
-          )}
+          <p
+            className="text-lg font-semibold text-black/60"
+            style={{
+              opacity: active === "left" && countdown !== null ? 1 : 0,
+              transform: active === "left" && countdown !== null ? "translateY(0)" : "translateY(8px)",
+              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
+              minHeight: "1.75rem",
+            }}
+          >
+            {countdown !== null ? `Visiting in ${countdown}` : ""}
+          </p>
           <BlurFade delay={0.4}>
             <p className="text-sm text-black/30">The human behind it.</p>
           </BlurFade>
@@ -152,15 +154,17 @@ export default function SplashPage() {
               Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
             </p>
           </BlurFade>
-          {active === "right" && (
-            <p
-              key={active}
-              className="text-lg font-semibold text-white/60"
-              style={{ animation: "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
-            >
-              {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
-            </p>
-          )}
+          <p
+            className="text-lg font-semibold text-white/60"
+            style={{
+              opacity: active === "right" && countdown !== null ? 1 : 0,
+              transform: active === "right" && countdown !== null ? "translateY(0)" : "translateY(8px)",
+              transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
+              minHeight: "1.75rem",
+            }}
+          >
+            {countdown !== null ? `Visiting in ${countdown}` : ""}
+          </p>
           <BlurFade delay={0.45}>
             <p className="text-sm text-white/30">The AI built from his work.</p>
           </BlurFade>
