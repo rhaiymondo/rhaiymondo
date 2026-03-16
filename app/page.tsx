@@ -195,37 +195,44 @@ export default function SplashPage() {
         </span>
       </div>
 
-      {/* HEADLINE — centered by default, moves to top on hover */}
-      <div
-        className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
-        style={{
-          mixBlendMode: "difference",
-          top: "2rem",
-        }}
-      >
-        <BlurFade delay={0.1}>
-          <p className="text-xs tracking-widest uppercase font-semibold text-white">
-            You&#39;ve reached a crossroads.
-          </p>
-        </BlurFade>
-        <BlurFade delay={0.2}>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl text-white">
-            Are you looking for the human or the AI?
-          </h1>
-        </BlurFade>
-      </div>
+      {/* HEADLINE — rendered twice, clipped to each half */}
+      {(["left", "right"] as const).map((side) => (
+        <div
+          key={side}
+          className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
+          style={{
+            top: "2rem",
+            clipPath: side === "left" ? "inset(0 50% 0 0)" : "inset(0 0 0 50%)",
+          }}
+        >
+          <BlurFade delay={0.1}>
+            <p className={`text-xs tracking-widest uppercase font-semibold ${side === "left" ? "text-black" : "text-white"}`}>
+              You&#39;ve reached a crossroads.
+            </p>
+          </BlurFade>
+          <BlurFade delay={0.2}>
+            <h1 className={`text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl ${side === "left" ? "text-black" : "text-white"}`}>
+              Are you looking for the human or the{" "}
+              <span style={GRADIENT_TEXT_STYLE}>AI</span>?
+            </h1>
+          </BlurFade>
+        </div>
+      ))}
 
-      {/* BOTTOM CAPTION */}
-      <div
-        className="absolute inset-x-0 bottom-8 pointer-events-none z-20 flex justify-center"
-        style={{ mixBlendMode: "difference" }}
-      >
-        <BlurFade delay={0.5}>
-          <span className="text-sm font-medium text-white opacity-60">
-            Same mind. Different form.
-          </span>
-        </BlurFade>
-      </div>
+      {/* BOTTOM CAPTION — clipped twice */}
+      {(["left", "right"] as const).map((side) => (
+        <div
+          key={side}
+          className="absolute inset-x-0 bottom-8 pointer-events-none z-20 flex justify-center"
+          style={{ clipPath: side === "left" ? "inset(0 50% 0 0)" : "inset(0 0 0 50%)" }}
+        >
+          <BlurFade delay={0.5}>
+            <span className={`text-sm font-medium ${side === "left" ? "text-black/40" : "text-white/40"}`}>
+              Same mind. Different form.
+            </span>
+          </BlurFade>
+        </div>
+      ))}
 
     </div>
   );
