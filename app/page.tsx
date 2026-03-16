@@ -109,7 +109,12 @@ export default function SplashPage() {
             <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
           </BlurFade>
           {active === "left" && countdown !== null && (
-            <p className="text-lg font-semibold text-black/60">Visiting in {countdown}</p>
+            <p
+              className="text-lg font-semibold text-black/60"
+              style={{ animation: "fadeUp 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
+            >
+              Visiting in {countdown}
+            </p>
           )}
           <BlurFade delay={0.4}>
             <p className="text-sm text-black/30">The human behind it.</p>
@@ -147,7 +152,12 @@ export default function SplashPage() {
             </p>
           </BlurFade>
           {active === "right" && countdown !== null && (
-            <p className="text-lg font-semibold text-white/60">Visiting in {countdown}</p>
+            <p
+              className="text-lg font-semibold text-white/60"
+              style={{ animation: "fadeUp 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
+            >
+              Visiting in {countdown}
+            </p>
           )}
           <BlurFade delay={0.45}>
             <p className="text-sm text-white/30">The AI built from his work.</p>
