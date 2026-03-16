@@ -119,7 +119,7 @@ export default function SplashPage() {
         {/* TOP PANEL — white, Rhaymondo (human) */}
         <div
           className="bg-white flex items-center justify-center"
-          style={{ height: "50vh", width: "100vw", flexShrink: 0 }}
+          style={{ height: "40vh", width: "100vw", flexShrink: 0, marginTop: "20vh" }}
           onClick={() => handleMobileTap("left")}
         >
           <div className="flex flex-col items-center gap-5 text-center">
@@ -145,7 +145,7 @@ export default function SplashPage() {
         {/* BOTTOM PANEL — dark, Rhaiymondo (AI) */}
         <div
           className="bg-[#0a0a0a] flex items-center justify-center"
-          style={{ height: "50vh", width: "100vw", flexShrink: 0 }}
+          style={{ height: "40vh", width: "100vw", flexShrink: 0 }}
           onClick={() => handleMobileTap("right")}
         >
           <div className="flex flex-col items-center gap-5 text-center">
