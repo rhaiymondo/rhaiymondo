@@ -66,7 +66,7 @@ export default function SplashPage() {
         if (charIndex >= TYPEWRITER_TEXT.length) {
           clearInterval(typewriterInterval);
         }
-      }, 40);
+      }, 75);
     }, 1200);
 
     // After typewriter finishes (~2.8s) + 0.4s = 3.2s — "Same mind. Different form."
