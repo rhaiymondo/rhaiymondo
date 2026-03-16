@@ -108,11 +108,9 @@ export default function SplashPage() {
           <BlurFade delay={0.3}>
             <p className="text-2xl md:text-3xl font-bold text-black">Rhaymondo</p>
           </BlurFade>
-          <BlurFade delay={0.35}>
-            <div className="inline-block px-10 py-4 rounded-xl text-lg font-semibold border-2 border-black text-black min-w-[160px] text-center">
-              {active === "left" && countdown !== null ? `Visiting in ${countdown}` : "Enter"}
-            </div>
-          </BlurFade>
+          {active === "left" && countdown !== null && (
+            <p className="text-lg font-semibold text-black/60">Visiting in {countdown}</p>
+          )}
           <BlurFade delay={0.4}>
             <p className="text-sm text-black/30">The human behind it.</p>
           </BlurFade>
@@ -148,13 +146,9 @@ export default function SplashPage() {
               Rh<span style={GRADIENT_TEXT_STYLE}>ai</span>ymondo
             </p>
           </BlurFade>
-          <BlurFade delay={0.35}>
-            <div className="inline-block p-[2px] rounded-xl" style={GRADIENT_BTN_STYLE}>
-              <span className="block px-10 py-4 rounded-[10px] bg-[#0a0a0a] text-lg font-semibold text-white min-w-[160px] text-center">
-                {active === "right" && countdown !== null ? `Visiting in ${countdown}` : "Enter"}
-              </span>
-            </div>
-          </BlurFade>
+          {active === "right" && countdown !== null && (
+            <p className="text-lg font-semibold text-white/60">Visiting in {countdown}</p>
+          )}
           <BlurFade delay={0.45}>
             <p className="text-sm text-white/30">The AI built from his work.</p>
           </BlurFade>
