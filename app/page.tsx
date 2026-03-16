@@ -98,7 +98,7 @@ export default function SplashPage() {
 
         <div
           className="flex flex-col items-center justify-center gap-5 w-full text-center"
-          style={{ position: "absolute", left: 0, width: active === "left" ? "100vw" : "50vw", top: "50%", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          style={{ position: "absolute", left: 0, width: active === "left" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <BlurFade delay={0.25}>
             <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
@@ -136,7 +136,7 @@ export default function SplashPage() {
 
         <div
           className="flex flex-col items-center justify-center gap-5 w-full text-center"
-          style={{ position: "absolute", right: 0, width: active === "right" ? "100vw" : "50vw", top: "50%", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+          style={{ position: "absolute", right: 0, width: active === "right" ? "100vw" : "50vw", top: "calc(50% + 60px)", transform: "translateY(-50%)", transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <BlurFade delay={0.2}>
             <div style={{ width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
@@ -190,9 +190,7 @@ export default function SplashPage() {
         className="absolute inset-x-0 pointer-events-none z-20 flex flex-col items-center text-center gap-4 px-8"
         style={{
           mixBlendMode: "difference",
-          top: active ? "2rem" : "50%",
-          transform: active ? "translateY(0)" : "translateY(-50%)",
-          transition: "top 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          top: "2rem",
         }}
       >
         <BlurFade delay={0.1}>
