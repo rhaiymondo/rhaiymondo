@@ -42,7 +42,6 @@ export default function Hero() {
           style={{
             left: cursor.x,
             top: cursor.y,
-            transform: "translate(-50%, -50%)",
             width: 200,
             height: 200,
             borderRadius: "50%",
