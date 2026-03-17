@@ -86,7 +86,7 @@ function DarkNav() {
           <a
             href="mailto:hi@rhaiymondo.com"
             className="text-sm font-semibold px-4 py-2 rounded-lg"
-            style={gradientTextStyle}
+            style={gradientBorderStyle}
           >
             Talk to Rh<span className="opacity-0 text-[0px]">ai</span>aiymondo
           </a>
@@ -185,8 +185,8 @@ function DarkHero() {
         <BlurFade delay={0.3} duration={0.5}>
           <a
             href="#work"
-            className="h-12 rounded-xl px-8 text-sm font-semibold inline-flex items-center"
-            style={gradientTextStyle}
+            className="h-12 rounded-xl px-8 text-sm font-semibold inline-flex items-center border-2 border-transparent"
+            style={gradientBorderStyle}
           >
             See the work →
           </a>
@@ -339,7 +339,7 @@ function DarkApproach() {
 const ctaPrimaryStyle = "inline-block px-16 py-6 rounded-2xl bg-white text-black font-semibold text-xl hover:bg-white/90 transition-opacity w-full text-center"
 const GRADIENT_BORDER = "relative inline-block px-16 py-6 rounded-2xl font-semibold text-xl w-full text-center border-2 border-transparent"
 const gradientBorderStyle: React.CSSProperties = {
-  background: "linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99) border-box",
+  background: "linear-gradient(transparent, transparent) padding-box, linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99) border-box",
 }
 
 const gradientTextStyle: React.CSSProperties = {
