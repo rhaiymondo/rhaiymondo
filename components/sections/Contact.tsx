@@ -9,8 +9,8 @@ export default function Contact() {
           Available for consulting, collaboration, and interesting problems.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="mailto:hi@rhaymondo.com" className="inline-block px-10 py-4 rounded-xl bg-black text-white font-semibold text-base hover:bg-black/80 transition-colors">
-            hi@rhaymondo.com
+          <a href="mailto:angelo@rhaymondo.nl" className="inline-block px-10 py-4 rounded-xl bg-black text-white font-semibold text-base hover:bg-black/80 transition-colors">
+            angelo@rhaymondo.nl
           </a>
           <a href="https://linkedin.com/in/angelo-oliviero" target="_blank" rel="noopener noreferrer" className="inline-block px-10 py-4 rounded-xl border border-black/20 text-black font-semibold text-base hover:border-black/60 transition-colors">
             LinkedIn ↗
