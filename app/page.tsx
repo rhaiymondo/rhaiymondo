@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRef, useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import RhaiymondoHome from "@/components/sites/RhaiymondoHome";
+import RhaymondoHome from "@/components/sites/RhaymondoHome";
 
 const GRADIENT_BG = `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
   radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
@@ -29,7 +31,24 @@ const GRADIENT_BTN_STYLE = {
 
 const TYPEWRITER_TEXT = "Are you looking for the human or the AI?";
 
-export default function SplashPage() {
+// Whether we're in local dev (NEXT_PUBLIC_SITE not set at build time)
+const IS_LOCAL_DEV = !process.env.NEXT_PUBLIC_SITE;
+
+function SplashPageInner() {
+  const searchParams = useSearchParams();
+  const bypass = searchParams.get("bypass") === "true";
+  const siteParam = searchParams.get("site");
+
+  // Bypass: skip splash and render the appropriate home directly
+  if (bypass) {
+    const site = process.env.NEXT_PUBLIC_SITE || siteParam;
+    return site === "RHAYMONDO" ? <RhaymondoHome /> : <RhaiymondoHome />;
+  }
+
+  return <SplashAnimation />;
+}
+
+function SplashAnimation() {
   const [active, setActive] = useState<"left" | "right" | null>(null);
   const [topPanel, setTopPanel] = useState<"left" | "right">("left");
   const [countdown, setCountdown] = useState<number | null>(null);
@@ -54,10 +73,8 @@ export default function SplashPage() {
 
   // Mount animation timeline
   useEffect(() => {
-    // t=0.3s — "You've reached a crossroads." fades in + moves down
     const t1 = setTimeout(() => setCrossroadsVisible(true), 300);
 
-    // t=1.2s — typewriter start
     let charIndex = 0;
     let typewriterInterval: ReturnType<typeof setInterval>;
     const typewriterTimeout = setTimeout(() => {
@@ -71,9 +88,6 @@ export default function SplashPage() {
       }, 75);
     }, 1200);
 
-    // These are now driven by typewriterDone state — see separate useEffect below
-
-    // t=4.2s — Right content block + image unblur (placeholder, overridden below)
     const t5 = setTimeout(() => {
       setRightContentVisible(true);
       setRightImageUnblurred(true);
@@ -87,7 +101,6 @@ export default function SplashPage() {
     };
   }, []);
 
-  // When typewriter finishes → caption + content in sequence
   useEffect(() => {
     if (!typewriterDone) return;
     const t1 = setTimeout(() => setCaptionVisible(true), 400);
@@ -98,7 +111,9 @@ export default function SplashPage() {
 
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const router = useRouter();
+
+  const leftHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAYMONDO" : "https://rhaymondo.com/?bypass=true";
+  const rightHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAIYMONDO" : "https://rhaiymondo.com/?bypass=true";
 
   const startCountdown = useCallback((side: "left" | "right") => {
     setCountdown(3);
@@ -108,16 +123,12 @@ export default function SplashPage() {
       if (count === 0) {
         clearInterval(countdownTimer.current!);
         setCountdown(null);
-        if (side === "left") {
-          window.location.href = "https://rhaymondo.com";
-        } else {
-          router.push("/home");
-        }
+        window.location.href = side === "left" ? leftHref : rightHref;
       } else {
         setCountdown(count);
       }
     }, 1000);
-  }, [router]);
+  }, [leftHref, rightHref]);
 
   const stopCountdown = useCallback(() => {
     if (countdownTimer.current) clearInterval(countdownTimer.current);
@@ -198,6 +209,12 @@ export default function SplashPage() {
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
             <p className="text-sm text-black/30">The human behind it.</p>
+            <a
+              href={leftHref}
+              className="mt-2 px-6 py-2 rounded-lg bg-black text-white text-sm font-semibold hover:bg-black/80 transition-colors"
+            >
+              Enter →
+            </a>
           </div>
         </div>
       </div>
@@ -257,6 +274,13 @@ export default function SplashPage() {
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
             <p className="text-sm text-white/30">The AI built from his work.</p>
+            <a
+              href={rightHref}
+              className="mt-2 px-6 py-2 rounded-lg text-black text-sm font-semibold"
+              style={GRADIENT_BTN_STYLE}
+            >
+              Enter →
+            </a>
           </div>
         </div>
       </div>
@@ -295,7 +319,6 @@ export default function SplashPage() {
           transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        {/* "You've reached a crossroads." — fades in + moves down from above */}
         <p
           className="text-xs tracking-widest uppercase font-semibold text-white"
           style={{
@@ -307,7 +330,6 @@ export default function SplashPage() {
           You&#39;ve reached a crossroads.
         </p>
 
-        {/* Typewriter headline */}
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl text-white" style={{ minHeight: "1.2em" }}>
           {typewriterText}
           {typewriterText.length > 0 && typewriterText.length < TYPEWRITER_TEXT.length && (
@@ -316,7 +338,7 @@ export default function SplashPage() {
         </h1>
       </div>
 
-      {/* BOTTOM CAPTION — "Same mind. Different form." fades in + moves up from below */}
+      {/* BOTTOM CAPTION */}
       <div
         className="absolute inset-x-0 bottom-8 pointer-events-none z-20 flex justify-center"
         style={{ mixBlendMode: "difference" }}
@@ -341,5 +363,13 @@ export default function SplashPage() {
       `}</style>
 
     </div>
+  );
+}
+
+export default function SplashPage() {
+  return (
+    <Suspense>
+      <SplashPageInner />
+    </Suspense>
   );
 }
