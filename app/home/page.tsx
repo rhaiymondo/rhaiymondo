@@ -5,12 +5,13 @@ import About from "@/components/sections/About";
 import Approach from "@/components/sections/Approach";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
+import BottomMarquee from "@/components/sections/BottomMarquee";
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main className="bg-[#0a0a0a]">
+      <main className="bg-[#f5f5f0]">
         <Hero />
         <Work />
         <About />
@@ -18,6 +19,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <BottomMarquee />
     </>
   );
 }
