@@ -85,8 +85,8 @@ function DarkNav() {
           </a>
           <a
             href="mailto:hi@rhaiymondo.com"
-            className="text-sm font-semibold text-black px-4 py-2 rounded-lg"
-            style={GRADIENT_BTN}
+            className="text-sm font-semibold px-4 py-2 rounded-lg"
+            style={gradientTextStyle}
           >
             Talk to Rh<span className="opacity-0 text-[0px]">ai</span>aiymondo
           </a>
@@ -163,7 +163,10 @@ function DarkHero() {
             className="mb-6 text-6xl font-extrabold text-white md:text-8xl"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Hello 👋, I am
+            Hello <span
+              className="inline-block animate-wave"
+              style={{ animationDelay: "0.5s" }}
+            >👋</span>, I am
             <br />
             <span
               className="cursor-default inline-block"
@@ -185,8 +188,8 @@ function DarkHero() {
         <BlurFade delay={0.3} duration={0.5}>
           <a
             href="#work"
-            className="h-12 rounded-xl px-8 text-sm font-semibold text-black inline-flex items-center"
-            style={GRADIENT_BTN}
+            className="h-12 rounded-xl px-8 text-sm font-semibold inline-flex items-center"
+            style={gradientTextStyle}
           >
             See the work →
           </a>
@@ -226,11 +229,11 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 const aiCarouselProjects = [
-  { title: "AI Code Assistant", subline: "Intelligent coding companion powered by LLMs. Context-aware suggestions.", image: "/projects/web-ui.jpg" },
-  { title: "Neural Search", subline: "Semantic search engine using embeddings. Find anything, not just keywords.", image: "/projects/ideas-blog.jpg" },
-  { title: "Data Pipeline Orchestrator", subline: "ML model training automation. From raw data to production models.", image: "/projects/creative-hubs.png" },
-  { title: "Chatbot Framework", subline: "Build conversational AI at scale. Multi-agent orchestration.", image: "/projects/color-push.jpg" },
-  { title: "Analytics Dashboard", subline: "Real-time metrics for AI systems. Monitor, debug, optimize.", image: "/projects/ideas-report.jpg" },
+  { title: "AI Code Assistant", subline: "Intelligent coding companion powered by LLMs. Context-aware suggestions.", image: "https://placehold.co/800x600/1a1a1a/666666?text=AI+Code+Assistant" },
+  { title: "Neural Search", subline: "Semantic search engine using embeddings. Find anything, not just keywords.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Neural+Search" },
+  { title: "Data Pipeline Orchestrator", subline: "ML model training automation. From raw data to production models.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Data+Pipeline" },
+  { title: "Chatbot Framework", subline: "Build conversational AI at scale. Multi-agent orchestration.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Chatbot+Framework" },
+  { title: "Analytics Dashboard", subline: "Real-time metrics for AI systems. Monitor, debug, optimize.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Analytics+Dashboard" },
 ];
 
 function DarkWork() {
@@ -301,7 +304,7 @@ function DarkAbout() {
   return (
     <section id="about" className="bg-[#0a0a0a]">
       <TextReveal>
-        {"I'm the AI version of Rhaymondo — a senior Next.js engineer. Built from real patterns in testing, DX, and AI-native development. rhaiymondo.com is where the future lives."}
+        {"Angelo is a senior Next.js engineer at Bol.com, building data-driven dashboards. rhaymondo.com is where his real projects live. rhaiymondo.com is what they became."}
       </TextReveal>
     </section>
   );
@@ -337,7 +340,20 @@ function DarkApproach() {
 // ─── Contact ──────────────────────────────────────────────────────────────────
 
 const ctaPrimaryStyle = "inline-block px-16 py-6 rounded-2xl bg-white text-black font-semibold text-xl hover:bg-white/90 transition-opacity w-full text-center"
-const ctaOutlineStyle = "inline-block px-16 py-6 rounded-2xl border border-white/30 text-white font-semibold text-xl hover:border-white transition-colors w-full text-center"
+const GRADIENT_BORDER = "relative inline-block px-16 py-6 rounded-2xl font-semibold text-xl w-full text-center overflow-hidden"
+const gradientBorderStyle: React.CSSProperties = {
+  background: "transparent",
+  border: "2px solid transparent",
+  backgroundImage: "linear-gradient(#0a0a0a, #0a0a0a), linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99)",
+  backgroundOrigin: "border-box",
+  backgroundClip: "padding-box, border-box",
+}
+
+const gradientTextStyle: React.CSSProperties = {
+  ...GRADIENT_TEXT,
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+}
 
 function DarkContact() {
   return (
@@ -375,7 +391,7 @@ function DarkContact() {
             <p className="text-white/50 text-base leading-relaxed mb-8">
               Iterate faster and integrate AI in your products. Let&apos;s find your Rhaiymondo.
             </p>
-            <a href="#" className={ctaOutlineStyle}>
+            <a href="#" className={GRADIENT_BORDER} style={gradientTextStyle}>
               Get in touch →
             </a>
           </div>
