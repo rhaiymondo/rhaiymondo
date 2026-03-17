@@ -31,6 +31,11 @@ export default function Work() {
           / What I have built
         </p>
 
+        {/* Featured image — 4:3 above text */}
+        <div className="mb-12 w-full rounded-2xl overflow-hidden relative aspect-[4/3]">
+          <Image src="/projects/the-supporting-act.jpg" alt="The Supporting Act Foundation" fill className="object-cover" />
+        </div>
+
         <div className="flex flex-col md:flex-row gap-16 md:gap-20 items-start">
           <div className="flex-1 min-w-0">
             <h2 className="text-4xl md:text-5xl font-bold text-black leading-none tracking-tight">
@@ -50,10 +55,6 @@ export default function Work() {
               View project →
             </a>
           </div>
-        </div>
-
-        <div className="mt-12 h-[260px] w-full rounded-2xl overflow-hidden relative">
-          <Image src="/projects/the-supporting-act.jpg" alt="The Supporting Act Foundation" fill className="object-cover" />
         </div>
 
         <div className="py-16">
