@@ -7,6 +7,33 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import { ScrollProgress } from "@/components/ui/scroll-reveal";
 
+function EmploymentPill() {
+  return (
+    <div className="fixed bottom-20 left-4 z-40 flex flex-col gap-1.5 px-4 py-3 rounded-2xl bg-white border border-black/10 shadow-md">
+      <p className="text-[10px] tracking-widest uppercase text-black/30">Currently working at</p>
+      <div className="flex items-center gap-2.5">
+        {/* Axxes */}
+        <div className="flex items-center gap-1.5">
+          <div className="w-5 h-5 rounded-md bg-[#1a1a2e] flex items-center justify-center shrink-0">
+            <span className="text-white text-[8px] font-bold">AX</span>
+          </div>
+          <span className="text-xs font-semibold text-black">Axxes</span>
+        </div>
+
+        <span className="text-[10px] text-black/25">→</span>
+
+        {/* Bol */}
+        <div className="flex items-center gap-1.5">
+          <div className="w-5 h-5 rounded-md bg-[#0000a4] flex items-center justify-center shrink-0">
+            <span className="text-white text-[8px] font-bold">bol</span>
+          </div>
+          <span className="text-xs font-semibold text-black">Bol</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SiteSwitcher() {
   return (
     <a
@@ -28,6 +55,7 @@ export default function RhaymondoHome() {
   return (
     <>
       <ScrollProgress />
+      <EmploymentPill />
       <SiteSwitcher />
       <Nav />
       <Footer />
