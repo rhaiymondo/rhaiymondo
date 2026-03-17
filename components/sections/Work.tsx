@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Marquee } from "@/components/ui/marquee";
@@ -15,11 +16,11 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 const carouselProjects = [
-  { title: "WeTransfer Marketing Site", subline: "Main marketing website for WeTransfer. Built with Next.js." },
-  { title: "WeTransfer Blog", subline: "Editorial blog platform for WeTransfer. Built with Next.js." },
-  { title: "Creative Hubs Index", subline: "Interactive index of the most creative cities worldwide. Built with Gatsby." },
-  { title: "Color Push", subline: "A creative escape during file transfers. Interactive color experience." },
-  { title: "Ideas Reports", subline: "Annual creativity insights report for WeTransfer. Design-forward editorial." },
+  { title: "WeTransfer Marketing Site", subline: "Main marketing website for WeTransfer. Built with Next.js.", image: "/projects/web-ui.jpg" },
+  { title: "WeTransfer Blog", subline: "Editorial blog platform for WeTransfer. Built with Next.js.", image: "/projects/ideas-blog.jpg" },
+  { title: "Creative Hubs Index", subline: "Interactive index of the most creative cities worldwide. Built with Gatsby.", image: "/projects/creative-hubs.png" },
+  { title: "Color Push", subline: "A creative escape during file transfers. Interactive color experience.", image: "/projects/color-push.jpg" },
+  { title: "Ideas Reports", subline: "Annual creativity insights report for WeTransfer. Design-forward editorial.", image: "/projects/ideas-report.jpg" },
 ];
 
 export default function Work() {
@@ -51,8 +52,8 @@ export default function Work() {
           </div>
         </div>
 
-        <div className="mt-12 h-[260px] w-full rounded-2xl bg-black/[0.03] border border-black/10 flex items-center justify-center">
-          <span className="text-black/20 text-xs tracking-[0.25em] uppercase font-light">Project visual</span>
+        <div className="mt-12 h-[260px] w-full rounded-2xl overflow-hidden relative">
+          <Image src="/projects/the-supporting-act.jpg" alt="The Supporting Act Foundation" fill className="object-cover" />
         </div>
 
         <div className="py-16">
@@ -66,8 +67,8 @@ export default function Work() {
       <Marquee pauseOnHover repeat={3} className="[--duration:30s]">
         {carouselProjects.map((project) => (
           <div key={project.title} className="snap-start min-w-[320px] md:min-w-[380px] shrink-0 mr-6">
-            <div className="h-[260px] bg-black/5 border border-black/10 rounded-xl flex items-center justify-center">
-              <span className="text-black/20 text-xs tracking-[0.25em] uppercase font-light">Visual</span>
+            <div className="h-[260px] rounded-xl overflow-hidden relative">
+              <Image src={project.image} alt={project.title} fill className="object-cover" />
             </div>
             <div className="mt-4">
               <p className="font-semibold text-black text-lg">{project.title}</p>
