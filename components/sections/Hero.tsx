@@ -3,6 +3,14 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { Marquee } from "@/components/ui/marquee";
+
+const TICKER = [
+  "WeTransfer is acquired by Bending Spoons",
+  "Code is like humor. When you have to explain it, it's bad.",
+  "This year I visited Dubai, South Africa, Turkey, and Namibia",
+  "Lodi is spelled backwards Idol",
+];
 
 const PROJECT_URLS = [
   "https://wetransfer.com",
@@ -109,6 +117,16 @@ export default function Hero() {
             Visit a random site →
           </button>
         </BlurFade>
+      </div>
+      {/* Bottom marquee */}
+      <div className="absolute bottom-0 left-0 w-full py-4 border-t border-black/10">
+        <Marquee className="[--duration:40s] [--gap:3rem]" repeat={4}>
+          {TICKER.map((item, i) => (
+            <span key={i} className="text-xs font-medium text-black/50 mx-4">
+              {item} <span className="mx-3 text-black/20">·</span>
+            </span>
+          ))}
+        </Marquee>
       </div>
     </section>
   );

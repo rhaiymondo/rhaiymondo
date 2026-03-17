@@ -5,7 +5,6 @@ import About from "@/components/sections/About";
 import Approach from "@/components/sections/Approach";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
-import BottomMarquee from "@/components/sections/BottomMarquee";
 
 export default function Home() {
   return (
@@ -19,7 +18,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-      <BottomMarquee />
+
     </>
   );
 }
