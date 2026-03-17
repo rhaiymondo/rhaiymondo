@@ -163,10 +163,7 @@ function DarkHero() {
             className="mb-6 text-6xl font-extrabold text-white md:text-8xl"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Hello <span
-              className="inline-block animate-wave"
-              style={{ animationDelay: "0.5s" }}
-            >👋</span>, I am
+            Hello <span className="wave-emoji">👋</span>, I am
             <br />
             <span
               className="cursor-default inline-block"
@@ -340,13 +337,9 @@ function DarkApproach() {
 // ─── Contact ──────────────────────────────────────────────────────────────────
 
 const ctaPrimaryStyle = "inline-block px-16 py-6 rounded-2xl bg-white text-black font-semibold text-xl hover:bg-white/90 transition-opacity w-full text-center"
-const GRADIENT_BORDER = "relative inline-block px-16 py-6 rounded-2xl font-semibold text-xl w-full text-center overflow-hidden"
+const GRADIENT_BORDER = "relative inline-block px-16 py-6 rounded-2xl font-semibold text-xl w-full text-center border-2 border-transparent"
 const gradientBorderStyle: React.CSSProperties = {
-  background: "transparent",
-  border: "2px solid transparent",
-  backgroundImage: "linear-gradient(#0a0a0a, #0a0a0a), linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99)",
-  backgroundOrigin: "border-box",
-  backgroundClip: "padding-box, border-box",
+  background: "linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99) border-box",
 }
 
 const gradientTextStyle: React.CSSProperties = {
@@ -391,7 +384,7 @@ function DarkContact() {
             <p className="text-white/50 text-base leading-relaxed mb-8">
               Iterate faster and integrate AI in your products. Let&apos;s find your Rhaiymondo.
             </p>
-            <a href="#" className={GRADIENT_BORDER} style={gradientTextStyle}>
+            <a href="#" className={GRADIENT_BORDER} style={gradientBorderStyle}>
               Get in touch →
             </a>
           </div>
