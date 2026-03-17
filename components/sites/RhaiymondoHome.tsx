@@ -336,35 +336,49 @@ function DarkApproach() {
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
 
+const ctaPrimaryStyle = "inline-block px-16 py-6 rounded-2xl bg-white text-black font-semibold text-xl hover:bg-white/90 transition-opacity w-full text-center"
+const ctaOutlineStyle = "inline-block px-16 py-6 rounded-2xl border border-white/30 text-white font-semibold text-xl hover:border-white transition-colors w-full text-center"
+
 function DarkContact() {
   return (
     <section id="contact" className="bg-[#0a0a0a] py-32">
-      <div className="max-w-3xl mx-auto px-8 text-center">
+      <div className="max-w-5xl mx-auto px-8">
         <h2
-          className="text-4xl md:text-6xl font-bold text-white mb-6"
+          className="text-4xl md:text-6xl font-bold text-white text-center mb-20"
           style={{ letterSpacing: "-0.03em" }}
         >
-          {"Let's work together."}
+          Let&apos;s build something.
         </h2>
-        <p className="text-white/50 text-lg mb-12 leading-relaxed">
-          Available for consulting, collaboration, and interesting problems.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="mailto:hi@rhaiymondo.com"
-            className="inline-flex items-center justify-center px-10 py-4 rounded-xl text-black font-semibold text-base"
-            style={GRADIENT_BTN}
-          >
-            hi@rh<span style={{ ...GRADIENT_TEXT, backgroundImage: undefined, WebkitTextFillColor: "unset", color: "black" }}>ai</span>ymondo.com
-          </a>
-          <a
-            href="https://linkedin.com/in/angelo-oliviero"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-10 py-4 rounded-xl border border-white/20 text-white font-semibold text-base hover:border-white/60 transition-colors"
-          >
-            LinkedIn ↗
-          </a>
+
+        <div className="flex flex-col md:flex-row gap-16 items-start">
+          {/* Left block */}
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold text-white mb-4">Work with Rhaymondo</h3>
+            <p className="text-white/50 text-base leading-relaxed mb-8">
+              The human behind it. Available for consulting, collaboration, and interesting problems.
+            </p>
+            <a href="https://rhaymondo.com" target="_blank" rel="noopener noreferrer" className={ctaPrimaryStyle}>
+              rhaymondo.com ↗
+            </a>
+          </div>
+
+          {/* Vertical separator */}
+          <div className="hidden md:flex self-stretch">
+            <div className="w-px bg-white/10" />
+          </div>
+
+          {/* Right block */}
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold text-white mb-4">
+              Optimise with Rh<span style={GRADIENT_TEXT}>ai</span>ymondo
+            </h3>
+            <p className="text-white/50 text-base leading-relaxed mb-8">
+              Iterate faster and integrate AI in your products. Let&apos;s find your Rhaiymondo.
+            </p>
+            <a href="#" className={ctaOutlineStyle}>
+              Get in touch →
+            </a>
+          </div>
         </div>
       </div>
     </section>
