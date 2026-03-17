@@ -209,12 +209,6 @@ function SplashAnimation() {
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
             <p className="text-sm text-black/30">The human behind it.</p>
-            <a
-              href={leftHref}
-              className="mt-2 px-6 py-2 rounded-lg bg-black text-white text-sm font-semibold hover:bg-black/80 transition-colors"
-            >
-              Enter →
-            </a>
           </div>
         </div>
       </div>
@@ -274,13 +268,6 @@ function SplashAnimation() {
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
             </p>
             <p className="text-sm text-white/30">The AI built from his work.</p>
-            <a
-              href={rightHref}
-              className="mt-2 px-6 py-2 rounded-lg text-black text-sm font-semibold"
-              style={GRADIENT_BTN_STYLE}
-            >
-              Enter →
-            </a>
           </div>
         </div>
       </div>
