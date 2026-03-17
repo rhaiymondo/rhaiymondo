@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useRef } from "react";
+import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
 
 const PROJECT_URLS = [
@@ -8,7 +10,6 @@ const PROJECT_URLS = [
   "https://thesupportingact.org",
   "https://wetransfer.com/ideas",
   "https://wetransfer.com",
-  "https://wetransfer.com",
 ];
 
 function pickRandom(arr: string[]): string {
@@ -16,39 +17,89 @@ function pickRandom(arr: string[]): string {
 }
 
 export default function Hero() {
+  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
+  const [wordHovered, setWordHovered] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
   const handleRandomSite = () => {
     window.open(pickRandom(PROJECT_URLS), "_blank", "noopener,noreferrer");
   };
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-[#f5f5f0] px-6">
-      <div className="relative flex flex-col items-center text-center" style={{ zIndex: 20 }}>
-        <BlurFade delay={0.1} duration={0.6}>
-          <h1
-            className="mb-8 text-6xl font-extrabold text-black md:text-8xl"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            {"Hi "}
-            <span
-              className="inline-block"
-              style={{
-                animation: "wave 1.5s ease-in-out infinite",
-                animationDelay: "0.5s",
-                transformOrigin: "70% 70%",
-              }}
-            >
-              ✌️
-            </span>
-            {", I'm Angelo."}
-          </h1>
-        </BlurFade>
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-screen flex-col items-center justify-center bg-[#f5f5f0] px-6 overflow-hidden"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Cursor-following circle — only on hover of "Rhaymondo" */}
+      {cursor && (
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            left: cursor.x,
+            top: cursor.y,
+            width: 200,
+            height: 200,
+            borderRadius: "50%",
+            overflow: "hidden",
+            opacity: wordHovered ? 1 : 0,
+            transform: `translate(-50%, -50%) translateY(${wordHovered ? "0px" : "24px"}) scale(${wordHovered ? 1 : 0.85})`,
+            transition: "opacity 400ms ease, transform 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+            zIndex: 50,
+          }}
+        >
+          <Image
+            src="/angelo-human.jpg"
+            alt=""
+            fill
+            className="object-cover w-full h-full"
+            style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }}
+            priority
+          />
+        </div>
+      )}
 
-        <BlurFade delay={0.2} duration={0.5}>
-          <p className="mb-10 max-w-xl text-lg text-black/60 leading-relaxed">
-            {"I'm a 33-year-old developer living a cozy life in the Netherlands. With a passion for creating dynamic and visually appealing user experiences, I specialize in React, Next.js, and Typescript."}
+      {/* Centered content */}
+      <div className="relative flex flex-col items-center text-center" style={{ zIndex: 20 }}>
+        {/* Eyebrow */}
+        <BlurFade delay={0} duration={0.5}>
+          <p className="mb-6 text-sm text-black/40">
+            Developer · React · Next.js · TypeScript
           </p>
         </BlurFade>
 
+        {/* H1 */}
+        <BlurFade delay={0.1} duration={0.6}>
+          <h1
+            className="mb-6 text-6xl font-extrabold text-black md:text-8xl"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            Hi <span className="wave-emoji">✌️</span>, I am
+            <br />
+            <span
+              className="cursor-default inline-block"
+              onMouseEnter={() => setWordHovered(true)}
+              onMouseLeave={() => setWordHovered(false)}
+            >
+              Rhaymondo.
+            </span>
+          </h1>
+        </BlurFade>
+
+        {/* Subline */}
+        <BlurFade delay={0.2} duration={0.5}>
+          <p className="mb-10 max-w-xl text-lg text-black/60 leading-relaxed">
+            I&apos;m a 33-year-old developer living a cozy life in the Netherlands. With a passion for creating dynamic and visually appealing user experiences, I specialize in React, Next.js, and Typescript.
+          </p>
+        </BlurFade>
+
+        {/* CTA */}
         <BlurFade delay={0.3} duration={0.5}>
           <button
             type="button"
@@ -59,16 +110,6 @@ export default function Hero() {
           </button>
         </BlurFade>
       </div>
-
-      <style>{`
-        @keyframes wave {
-          0%, 100% { transform: rotate(0deg); }
-          20% { transform: rotate(-20deg); }
-          40% { transform: rotate(12deg); }
-          60% { transform: rotate(-15deg); }
-          80% { transform: rotate(10deg); }
-        }
-      `}</style>
     </section>
   );
 }
