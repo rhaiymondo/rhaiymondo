@@ -117,6 +117,8 @@ export default function Hero() {
             Visit a random site →
           </button>
         </BlurFade>
+
+
       </div>
       {/* Bottom marquee */}
       <div className="absolute bottom-0 left-0 w-full py-4 border-t border-b border-black/10">
