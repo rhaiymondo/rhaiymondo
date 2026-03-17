@@ -1,7 +1,5 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -13,77 +11,26 @@ export default function Nav() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#0a0a0a] border-b border-white/10"
-          : "bg-transparent"
-      }`}
-    >
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? "bg-[#f5f5f0] border-b border-black/10 shadow-sm" : "bg-transparent"
+    }`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Left: branding */}
-        <a href="/home" className="flex flex-col leading-tight" aria-label="Rhaiymondo — back to top">
-          <span className="font-bold text-white text-xl tracking-tight">
-            Rh<span style={{
-              backgroundImage: `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
-                radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
-                radial-gradient(at 3% 34%, hsla(70,74%,71%,1) 0px, transparent 50%),
-                radial-gradient(at 72% 56%, hsla(128,77%,61%,1) 0px, transparent 50%),
-                radial-gradient(at 24% 47%, hsla(354,87%,66%,1) 0px, transparent 50%),
-                radial-gradient(at 81% 13%, hsla(100,72%,76%,1) 0px, transparent 50%),
-                radial-gradient(at 50% 22%, hsla(103,75%,61%,1) 0px, transparent 50%),
-                radial-gradient(at 60% 80%, hsla(220,95%,65%,1) 0px, transparent 50%),
-                radial-gradient(at 10% 70%, hsla(210,90%,60%,1) 0px, transparent 50%)`,
-              backgroundColor: "#99ceff",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}>ai</span>ymondo
-          </span>
+        {/* Left: LinkedIn icon */}
+        <a href="https://linkedin.com/in/angelo-oliviero" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-black/60 hover:text-black transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
         </a>
 
-        {/* Right: nav links + CTA */}
+        {/* Center: Wordmark */}
+        <a href="/home" className="absolute left-1/2 -translate-x-1/2 font-bold text-black text-xl tracking-tight" aria-label="Rhaymondo">
+          Rhaymondo
+        </a>
+
+        {/* Right: nav links */}
         <nav className="flex items-center gap-6">
-          <a
-            href="/home#work"
-            className="text-sm text-white/60 hover:text-white transition-colors"
-          >
-            Work
-          </a>
-          <a
-            href="/home#about"
-            className="text-sm text-white/60 hover:text-white transition-colors"
-          >
-            About
-          </a>
-          <a
-            href="/home#approach"
-            className="text-sm text-white/60 hover:text-white transition-colors"
-          >
-            Approach
-          </a>
-          <Button
-            type="button"
-            variant="outline"
-            className="text-sm border-blue-500/60 text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 hover:border-blue-400 bg-transparent"
-            aria-label="Talk to Rhaiymondo (coming soon)"
-          >
-            <span style={{
-              backgroundImage: `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
-                radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
-                radial-gradient(at 3% 34%, hsla(70,74%,71%,1) 0px, transparent 50%),
-                radial-gradient(at 72% 56%, hsla(128,77%,61%,1) 0px, transparent 50%),
-                radial-gradient(at 24% 47%, hsla(354,87%,66%,1) 0px, transparent 50%),
-                radial-gradient(at 81% 13%, hsla(100,72%,76%,1) 0px, transparent 50%),
-                radial-gradient(at 50% 22%, hsla(103,75%,61%,1) 0px, transparent 50%),
-                radial-gradient(at 60% 80%, hsla(220,95%,65%,1) 0px, transparent 50%),
-                radial-gradient(at 10% 70%, hsla(210,90%,60%,1) 0px, transparent 50%)`,
-              backgroundColor: "#99ceff",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}>Talk to Rhaiymondo</span>
-          </Button>
+          <a href="#work" className="text-sm text-black/60 hover:text-black transition-colors">Work</a>
+          <a href="#about" className="text-sm text-black/60 hover:text-black transition-colors">About</a>
         </nav>
       </div>
     </header>
