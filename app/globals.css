@@ -184,6 +184,34 @@
   100% { background-position: 0% 50%; }
 }
 
+.gradient-btn {
+  background:
+    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99, #99ceff) border-box;
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition: background-position 0.5s ease;
+}
+
+.gradient-btn:hover {
+  background-position: 100% 0%;
+}
+
+.gradient-btn-text {
+  background: linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99, #99ceff);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position 0.5s ease;
+}
+
+.gradient-btn:hover .gradient-btn-text {
+  background-position: 100% 0%;
+}
+
 .animated-gradient-footer {
   background-color: #99ceff !important;
   background-image:
