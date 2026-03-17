@@ -24,11 +24,6 @@ const GRADIENT_TEXT_STYLE = {
   backgroundClip: "text" as const,
 };
 
-const GRADIENT_BTN_STYLE = {
-  backgroundImage: GRADIENT_BG,
-  backgroundColor: "#99ceff",
-};
-
 const TYPEWRITER_TEXT = "Are you looking for the human or the AI?";
 
 // Whether we're in local dev (NEXT_PUBLIC_SITE not set at build time)
@@ -53,6 +48,10 @@ function SplashAnimation() {
   const [topPanel, setTopPanel] = useState<"left" | "right">("left");
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Panel entrance
+  const [panelsVisible, setPanelsVisible] = useState(false);
 
   // Mount animation states
   const [crossroadsVisible, setCrossroadsVisible] = useState(false);
@@ -63,6 +62,7 @@ function SplashAnimation() {
   const [rightContentVisible, setRightContentVisible] = useState(false);
   const [leftImageUnblurred, setLeftImageUnblurred] = useState(false);
   const [rightImageUnblurred, setRightImageUnblurred] = useState(false);
+  const [interactable, setInteractable] = useState(false);
 
   useEffect(() => {
     const check = () => setIsLargeScreen(window.innerWidth >= 1440);
@@ -71,13 +71,35 @@ function SplashAnimation() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Detect prefers-reduced-motion
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Panel entrance: fade + slide in from sides
+  useEffect(() => {
+    const t = setTimeout(() => setPanelsVisible(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
   // Mount animation timeline
   useEffect(() => {
     const t1 = setTimeout(() => setCrossroadsVisible(true), 300);
 
     let charIndex = 0;
     let typewriterInterval: ReturnType<typeof setInterval>;
+
     const typewriterTimeout = setTimeout(() => {
+      // Skip typewriter animation if reduced motion
+      if (reducedMotion) {
+        setTypewriterText(TYPEWRITER_TEXT);
+        setTypewriterDone(true);
+        return;
+      }
       typewriterInterval = setInterval(() => {
         charIndex++;
         setTypewriterText(TYPEWRITER_TEXT.slice(0, charIndex));
@@ -99,14 +121,15 @@ function SplashAnimation() {
       clearInterval(typewriterInterval);
       clearTimeout(t5);
     };
-  }, []);
+  }, [reducedMotion]);
 
   useEffect(() => {
     if (!typewriterDone) return;
     const t1 = setTimeout(() => setCaptionVisible(true), 400);
     const t2 = setTimeout(() => { setLeftContentVisible(true); setLeftImageUnblurred(true); }, 700);
     const t3 = setTimeout(() => { setRightContentVisible(true); setRightImageUnblurred(true); }, 1400);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t4 = setTimeout(() => setInteractable(true), 1000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, [typewriterDone]);
 
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -150,48 +173,70 @@ function SplashAnimation() {
     }, 600);
   };
 
+  // Mobile: tap to select
+  const handleTap = (side: "left" | "right") => {
+    if (active === side) {
+      window.location.href = side === "left" ? leftHref : rightHref;
+    } else {
+      handleEnter(side);
+    }
+  };
+
+  const motion = reducedMotion ? "none" : undefined;
+
+  const panelTransition = reducedMotion
+    ? "none"
+    : "width 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease, transform 500ms ease";
+
   const leftW = active === "left" ? "90vw" : "50vw";
   const rightW = active === "right" ? "90vw" : "50vw";
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden" style={{ isolation: "isolate" }}>
+    <div
+      className="relative h-screen w-screen overflow-hidden"
+      style={{ isolation: "isolate", pointerEvents: interactable ? "auto" : "none" }}
+    >
 
       {/* LEFT PANEL */}
       <div
         onMouseEnter={() => handleEnter("left")}
         onMouseLeave={handleLeave}
+        onClick={() => handleTap("left")}
         style={{
           width: leftW,
           minWidth: "50vw",
-          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          transition: panelTransition,
           position: "absolute",
           top: 0, left: 0, height: "100%",
           zIndex: topPanel === "left" ? 10 : 1,
+          opacity: panelsVisible ? 1 : 0,
+          transform: panelsVisible ? "translateX(0)" : "translateX(-16px)",
         }}
-        className="relative bg-white overflow-hidden"
+        className="relative bg-white overflow-hidden cursor-pointer"
       >
         <div
           style={{
             position: "absolute",
             left: 0,
             width: active === "left" ? "100vw" : "50vw",
-            top: "calc(50% + 60px)",
+            top: "50%",
             transform: "translateY(-50%)",
-            transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+            transition: motion ?? "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
           <div
             className="flex flex-col items-center justify-center gap-3 w-full text-center"
             style={{
               opacity: leftContentVisible ? 1 : 0,
-              transition: "opacity 600ms ease",
+              transition: motion ?? "opacity 600ms ease",
             }}
           >
             <div
               style={{
                 width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto",
                 filter: leftImageUnblurred ? "blur(0px)" : "blur(12px)",
-                transition: "filter 800ms ease",
+                transform: active === "left" ? "scale(1.08)" : "scale(1)",
+                transition: motion ?? "filter 800ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
               <Image src="/angelo-human.jpg" alt="Rhaymondo" width={120} height={120} className="object-cover w-full h-full" style={{ objectPosition: "center 15%", transform: "scale(1.4)", transformOrigin: "center 15%" }} />
@@ -203,7 +248,7 @@ function SplashAnimation() {
                 opacity: active === "left" && countdown !== null ? 1 : 0,
                 maxHeight: active === "left" && countdown !== null ? "2rem" : "0",
                 transform: active === "left" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-                transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
+                transition: motion ?? "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
               }}
             >
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
@@ -217,38 +262,42 @@ function SplashAnimation() {
       <div
         onMouseEnter={() => handleEnter("right")}
         onMouseLeave={handleLeave}
+        onClick={() => handleTap("right")}
         style={{
           width: rightW,
           minWidth: "50vw",
-          transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          transition: panelTransition,
           position: "absolute",
           top: 0, right: 0, height: "100%",
           zIndex: topPanel === "right" ? 10 : 1,
+          opacity: panelsVisible ? 1 : 0,
+          transform: panelsVisible ? "translateX(0)" : "translateX(16px)",
         }}
-        className="relative bg-[#0a0a0a] overflow-hidden"
+        className="relative bg-[#0a0a0a] overflow-hidden cursor-pointer"
       >
         <div
           style={{
             position: "absolute",
             right: 0,
             width: active === "right" ? "100vw" : "50vw",
-            top: "calc(50% + 60px)",
+            top: "50%",
             transform: "translateY(-50%)",
-            transition: "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+            transition: motion ?? "width 600ms cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
           <div
             className="flex flex-col items-center justify-center gap-3 w-full text-center"
             style={{
               opacity: rightContentVisible ? 1 : 0,
-              transition: "opacity 600ms ease",
+              transition: motion ?? "opacity 600ms ease",
             }}
           >
             <div
               style={{
                 width: 120, height: 120, borderRadius: "50%", overflow: "hidden", margin: "0 auto",
                 filter: rightImageUnblurred ? "blur(0px)" : "blur(12px)",
-                transition: "filter 800ms ease",
+                transform: active === "right" ? "scale(1.08)" : "scale(1)",
+                transition: motion ?? "filter 800ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
               <Image src="/angelo.jpg" alt="Rhaiymondo" width={120} height={120} className="object-cover w-full h-full" style={{ transform: "scale(1.1)", transformOrigin: "center center" }} />
@@ -262,7 +311,7 @@ function SplashAnimation() {
                 opacity: active === "right" && countdown !== null ? 1 : 0,
                 maxHeight: active === "right" && countdown !== null ? "2rem" : "0",
                 transform: active === "right" && countdown !== null ? "translateY(0)" : "translateY(8px)",
-                transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
+                transition: motion ?? "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1), max-height 500ms cubic-bezier(0.16,1,0.3,1)",
               }}
             >
               {countdown !== null ? `Visiting in ${countdown}` : "\u00a0"}
@@ -275,7 +324,7 @@ function SplashAnimation() {
       {/* VERTICAL LABELS — shown on the 10vw strip of the non-active panel */}
       <div
         className="absolute top-0 right-0 h-full w-[10vw] flex items-center justify-center pointer-events-none z-30"
-        style={{ opacity: active === "left" ? 1 : 0, transition: "opacity 300ms ease" }}
+        style={{ opacity: active === "left" ? 1 : 0, transition: motion ?? "opacity 300ms ease" }}
       >
         <span
           className="text-sm font-bold tracking-widest uppercase text-white"
@@ -286,7 +335,7 @@ function SplashAnimation() {
       </div>
       <div
         className="absolute top-0 left-0 h-full w-[10vw] flex items-center justify-center pointer-events-none z-30"
-        style={{ opacity: active === "right" ? 1 : 0, transition: "opacity 300ms ease" }}
+        style={{ opacity: active === "right" ? 1 : 0, transition: motion ?? "opacity 300ms ease" }}
       >
         <span
           className="text-sm font-bold tracking-widest uppercase text-black"
@@ -303,7 +352,7 @@ function SplashAnimation() {
           mixBlendMode: "difference",
           top: (active || (typewriterDone && !isLargeScreen)) ? "2rem" : "50%",
           transform: (active || (typewriterDone && !isLargeScreen)) ? "translateY(0)" : "translateY(-50%)",
-          transition: "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
+          transition: motion ?? "top 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         <p
@@ -311,7 +360,7 @@ function SplashAnimation() {
           style={{
             opacity: crossroadsVisible ? 1 : 0,
             transform: crossroadsVisible ? "translateY(0)" : "translateY(-16px)",
-            transition: "opacity 600ms ease, transform 600ms ease",
+            transition: motion ?? "opacity 600ms ease, transform 600ms ease",
           }}
         >
           You&#39;ve reached a crossroads.
@@ -320,7 +369,7 @@ function SplashAnimation() {
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-xl text-white" style={{ minHeight: "1.2em" }}>
           {typewriterText}
           {typewriterText.length > 0 && typewriterText.length < TYPEWRITER_TEXT.length && (
-            <span style={{ opacity: 1, animation: "blink 0.7s step-end infinite" }}>|</span>
+            <span className="typewriter-cursor">|</span>
           )}
         </h1>
       </div>
@@ -335,7 +384,7 @@ function SplashAnimation() {
           style={{
             opacity: captionVisible ? 0.6 : 0,
             transform: captionVisible ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 600ms ease, transform 600ms ease",
+            transition: motion ?? "opacity 600ms ease, transform 600ms ease",
           }}
         >
           Same mind. Different form.
@@ -343,9 +392,18 @@ function SplashAnimation() {
       </div>
 
       <style>{`
+        .typewriter-cursor {
+          animation: blink 0.7s step-end infinite;
+        }
         @keyframes blink {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .typewriter-cursor {
+            animation: none;
+            opacity: 1;
+          }
         }
       `}</style>
 

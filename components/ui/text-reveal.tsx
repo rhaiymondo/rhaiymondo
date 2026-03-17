@@ -38,7 +38,7 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className, theme = "
       >
         <span
           className={cn(
-            "flex flex-wrap p-5 text-2xl font-bold md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl leading-[1.35]",
+            "flex flex-wrap justify-center p-5 text-2xl font-bold md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl leading-[1.35]",
             theme === "light" ? "text-black/20" : "text-white/20"
           )}
         >

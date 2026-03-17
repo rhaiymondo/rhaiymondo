@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useInView, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Marquee } from "@/components/ui/marquee";
@@ -30,10 +31,113 @@ const GRADIENT_TEXT: React.CSSProperties = {
   backgroundClip: "text",
 };
 
-const GRADIENT_BTN: React.CSSProperties = {
-  backgroundImage: GRADIENT_BG,
-  backgroundColor: "#99ceff",
-};
+
+// ─── Gradient button ──────────────────────────────────────────────────────────
+
+const GRADIENT_COLORS = "90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99, #99ceff";
+
+// ─── Scroll progress bar ──────────────────────────────────────────────────────
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const reducedMotion = useReducedMotion();
+  if (reducedMotion) return null;
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] z-[100] origin-left"
+      style={{
+        scaleX: scrollYProgress,
+        background: `linear-gradient(${GRADIENT_COLORS})`,
+      }}
+    />
+  );
+}
+
+// ─── Scroll reveal wrapper ────────────────────────────────────────────────────
+
+function ScrollReveal({
+  children,
+  delay = 0,
+  direction = "up",
+  className,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  direction?: "up" | "left" | "right";
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px 0px" });
+  const reducedMotion = useReducedMotion();
+  const x = reducedMotion ? 0 : direction === "left" ? -28 : direction === "right" ? 28 : 0;
+  const y = reducedMotion ? 0 : direction === "up" ? 20 : 0;
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, x, y }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function GradientButton({
+  href,
+  className,
+  children,
+  target,
+  rel,
+}: {
+  href: string;
+  className: string;
+  children: React.ReactNode;
+  target?: string;
+  rel?: string;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [pos, setPos] = useState(50);
+
+  const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos(((e.clientX - rect.left) / rect.width) * 100);
+  };
+
+  const onMouseLeave = () => setPos(50);
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      className={className}
+      style={{
+        background: `linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(${GRADIENT_COLORS}) border-box`,
+        backgroundSize: "200% 100%",
+        backgroundPosition: `${pos}% 0%`,
+      }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      target={target}
+      rel={rel}
+    >
+      <span
+        style={{
+          background: `linear-gradient(${GRADIENT_COLORS})`,
+          backgroundSize: "200% 100%",
+          backgroundPosition: `${pos}% 0%`,
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        {children}
+      </span>
+    </a>
+  );
+}
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
@@ -77,19 +181,17 @@ function DarkNav() {
 
         {/* Right: nav + CTA */}
         <nav className="flex items-center gap-6">
-          <a href="#work" className="text-sm text-white/50 hover:text-white transition-colors">
+          <a href="#work" className="text-sm text-white/50 hover:text-white transition-colors relative group py-1">
             Work
+            <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
           </a>
-          <a href="#about" className="text-sm text-white/50 hover:text-white transition-colors">
+          <a href="#about" className="text-sm text-white/50 hover:text-white transition-colors relative group py-1">
             About
+            <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
           </a>
-          <a
-            href="mailto:hi@rhaiymondo.com"
-            className="text-sm font-semibold px-4 py-2 rounded-lg"
-            style={gradientBorderStyle}
-          >
-            Talk to Rh<span className="opacity-0 text-[0px]">ai</span>aiymondo
-          </a>
+          <GradientButton href="mailto:hi@rhaiymondo.com" className="text-sm font-semibold px-4 py-2 rounded-lg border-2 border-transparent">
+            Talk to Rh<span className="opacity-0" style={{ fontSize: 0 }}>ai</span>aiymondo
+          </GradientButton>
         </nav>
       </div>
     </header>
@@ -183,13 +285,9 @@ function DarkHero() {
         </BlurFade>
 
         <BlurFade delay={0.3} duration={0.5}>
-          <a
-            href="#work"
-            className="h-12 rounded-xl px-8 text-sm font-semibold inline-flex items-center border-2 border-transparent"
-            style={gradientBorderStyle}
-          >
+          <GradientButton href="#work" className="h-12 rounded-xl px-8 text-sm font-semibold inline-flex items-center border-2 border-transparent">
             See the work →
-          </a>
+          </GradientButton>
         </BlurFade>
       </div>
 
@@ -226,24 +324,26 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 const aiCarouselProjects = [
-  { title: "AI Code Assistant", subline: "Intelligent coding companion powered by LLMs. Context-aware suggestions.", image: "https://placehold.co/800x600/1a1a1a/666666?text=AI+Code+Assistant" },
-  { title: "Neural Search", subline: "Semantic search engine using embeddings. Find anything, not just keywords.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Neural+Search" },
-  { title: "Data Pipeline Orchestrator", subline: "ML model training automation. From raw data to production models.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Data+Pipeline" },
-  { title: "Chatbot Framework", subline: "Build conversational AI at scale. Multi-agent orchestration.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Chatbot+Framework" },
-  { title: "Analytics Dashboard", subline: "Real-time metrics for AI systems. Monitor, debug, optimize.", image: "https://placehold.co/800x600/1a1a1a/666666?text=Analytics+Dashboard" },
+  { title: "git-summarize", subline: "CLI that turns git log into a readable changelog. Powered by LLMs.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)" },
+  { title: "use-keyboard-shortcut", subline: "React hook for declarative keyboard shortcuts with a cheatsheet overlay.", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d1b33 50%, #1a0a2e 100%)" },
+  { title: "Snippet Vault", subline: "Save and tag code snippets with syntax highlighting. Shareable via URL.", gradient: "linear-gradient(135deg, #0a1628 0%, #1a2a1a 50%, #0f2818 100%)" },
+  { title: "env-inspector", subline: "Browser devtools panel showing active env vars, masked values, and missing keys.", gradient: "linear-gradient(135deg, #1a1200 0%, #2a1f00 50%, #1a0f00 100%)" },
+  { title: "next-routes", subline: "Prints a full tree of all Next.js routes with layouts. One command.", gradient: "linear-gradient(135deg, #0a1a1a 0%, #001a2a 50%, #00141e 100%)" },
 ];
 
 function DarkWork() {
   return (
     <section id="work" className="py-32 bg-[#0a0a0a]">
       <div className="max-w-5xl mx-auto px-8">
-        <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-16">
-          / What I have built
-        </p>
+        <ScrollReveal>
+          <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-16">
+            / What I have built
+          </p>
+        </ScrollReveal>
 
         {/* Featured project */}
         <div className="flex flex-col md:flex-row gap-16 md:gap-20 items-start">
-          <div className="flex-1 min-w-0">
+          <ScrollReveal delay={0.1} className="flex-1 min-w-0">
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-none tracking-tight">
               MSW Manager
             </h2>
@@ -251,9 +351,9 @@ function DarkWork() {
               Developer tooling for Mock Service Worker
             </p>
             <Tags tags={["TypeScript", "MSW", "Testing", "DX", "Open Source"]} />
-          </div>
+          </ScrollReveal>
 
-          <div className="flex-1 min-w-0 md:pt-[3.5rem]">
+          <ScrollReveal delay={0.22} className="flex-1 min-w-0 md:pt-[3.5rem]">
             <p className="text-white/50 text-sm leading-relaxed">
               A toolkit for managing MSW (Mock Service Worker) handler scenarios in development and
               testing environments. Ships a browser devtools panel, scenario switching, and
@@ -267,7 +367,7 @@ function DarkWork() {
             >
               View project →
             </a>
-          </div>
+          </ScrollReveal>
         </div>
 
         <div className="py-16">
@@ -275,16 +375,17 @@ function DarkWork() {
         </div>
       </div>
 
-      <div className="px-8 mb-12 max-w-5xl mx-auto">
+      <ScrollReveal className="px-8 mb-12 max-w-5xl mx-auto">
         <p className="text-white/30 text-sm tracking-[0.3em] uppercase text-center">More projects</p>
-      </div>
+      </ScrollReveal>
       <Marquee pauseOnHover repeat={3} className="[--duration:30s]">
         {aiCarouselProjects.map((project) => (
-          <div key={project.title} className="snap-start min-w-[320px] md:min-w-[380px] shrink-0 mr-6">
-            <div className="h-[260px] rounded-xl overflow-hidden relative bg-white/5">
-              <Image src={project.image} alt={project.title} fill className="object-cover opacity-80" />
-            </div>
-            <div className="mt-4">
+          <div key={project.title} className="group snap-start min-w-[320px] md:min-w-[380px] shrink-0 mr-6 cursor-pointer">
+            <div
+              className="h-[260px] rounded-xl overflow-hidden relative ring-1 ring-white/0 transition-all duration-300 group-hover:ring-white/20"
+              style={{ background: project.gradient }}
+            />
+            <div className="mt-4 transition-transform duration-300 group-hover:-translate-y-0.5">
               <p className="font-semibold text-white text-lg">{project.title}</p>
               <p className="text-white/40 text-sm mt-1 max-w-[260px]">{project.subline}</p>
             </div>
@@ -316,17 +417,38 @@ const statements = [
   { num: "04", text: "Ship it. Iterate. Don't wait for perfect." },
 ];
 
+function ApproachRow({ num, text, index }: { num: string; text: string; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px 0px" });
+  const reducedMotion = useReducedMotion();
+  return (
+    <motion.div
+      ref={ref}
+      className="flex items-start gap-8 border-t border-white/10 py-8 group cursor-default"
+      initial={{ opacity: 0, x: reducedMotion ? 0 : -16 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <span className="text-sm font-normal text-white/20 min-w-[3rem] transition-colors duration-200 group-hover:text-white/50">
+        {num}
+      </span>
+      <p className="text-2xl md:text-3xl font-semibold text-white flex-1 transition-transform duration-200 group-hover:translate-x-1.5">
+        {text}
+      </p>
+    </motion.div>
+  );
+}
+
 function DarkApproach() {
   return (
     <section id="approach" className="bg-[#111] py-32">
       <div className="max-w-5xl mx-auto px-8">
-        <p className="text-xs tracking-widest uppercase text-white/40 mb-16">/ How I think</p>
+        <ScrollReveal>
+          <p className="text-xs tracking-widest uppercase text-white/40 mb-16">/ How I think</p>
+        </ScrollReveal>
         <div>
-          {statements.map(({ num, text }) => (
-            <div key={num} className="flex items-start gap-8 border-t border-white/10 py-8">
-              <span className="text-sm font-normal text-white/20 min-w-[3rem]">{num}</span>
-              <p className="text-2xl md:text-3xl font-semibold text-white flex-1">{text}</p>
-            </div>
+          {statements.map(({ num, text }, i) => (
+            <ApproachRow key={num} num={num} text={text} index={i} />
           ))}
         </div>
       </div>
@@ -338,30 +460,24 @@ function DarkApproach() {
 
 const ctaPrimaryStyle = "inline-block px-16 py-6 rounded-2xl bg-white text-black font-semibold text-xl hover:bg-white/90 transition-opacity w-full text-center"
 const GRADIENT_BORDER = "relative inline-block px-16 py-6 rounded-2xl font-semibold text-xl w-full text-center border-2 border-transparent"
-const gradientBorderStyle: React.CSSProperties = {
-  background: "linear-gradient(transparent, transparent) padding-box, linear-gradient(90deg, #99ceff, #ff99cc, #99ffcc, #ffcc99) border-box",
-}
 
-const gradientTextStyle: React.CSSProperties = {
-  ...GRADIENT_TEXT,
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-}
 
 function DarkContact() {
   return (
     <section id="contact" className="bg-[#0a0a0a] py-32">
       <div className="max-w-5xl mx-auto px-8">
-        <h2
-          className="text-4xl md:text-6xl font-bold text-white text-center mb-20"
-          style={{ letterSpacing: "-0.03em" }}
-        >
-          Let&apos;s build something.
-        </h2>
+        <ScrollReveal>
+          <h2
+            className="text-4xl md:text-6xl font-bold text-white text-center mb-20"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            Let&apos;s build something.
+          </h2>
+        </ScrollReveal>
 
         <div className="flex flex-col md:flex-row gap-16 items-start">
           {/* Left block */}
-          <div className="flex-1">
+          <ScrollReveal direction="left" delay={0.1} className="flex-1">
             <h3 className="text-xl font-semibold text-white mb-4">Work with Rhaymondo</h3>
             <p className="text-white/50 text-base leading-relaxed mb-8">
               The human behind it. Available for consulting, collaboration, and interesting problems.
@@ -369,7 +485,7 @@ function DarkContact() {
             <a href="https://rhaymondo.com" target="_blank" rel="noopener noreferrer" className={ctaPrimaryStyle}>
               rhaymondo.com ↗
             </a>
-          </div>
+          </ScrollReveal>
 
           {/* Vertical separator */}
           <div className="hidden md:flex self-stretch">
@@ -377,36 +493,80 @@ function DarkContact() {
           </div>
 
           {/* Right block */}
-          <div className="flex-1">
+          <ScrollReveal direction="right" delay={0.1} className="flex-1">
             <h3 className="text-xl font-semibold text-white mb-4">
               Optimise with Rh<span style={GRADIENT_TEXT}>ai</span>ymondo
             </h3>
             <p className="text-white/50 text-base leading-relaxed mb-8">
               Iterate faster and integrate AI in your products. Let&apos;s find your Rhaiymondo.
             </p>
-            <a href="#" className={GRADIENT_BORDER} style={gradientBorderStyle}>
+            <GradientButton href="#" className={GRADIENT_BORDER}>
               Get in touch →
-            </a>
-          </div>
+            </GradientButton>
+          </ScrollReveal>
         </div>
       </div>
     </section>
   );
 }
 
+// ─── Site switcher ────────────────────────────────────────────────────────────
+
+function SiteSwitcher() {
+  return (
+    <a
+      href="https://rhaymondo.com"
+      aria-label="Visit Rhaymondo — the human"
+      className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center py-5 px-[10px] rounded-r-xl bg-[#0a0a0a] border-r border-t border-b border-white/10 text-white/30 hover:text-white/70 hover:translate-x-1 transition-all duration-300 cursor-pointer"
+    >
+      <span
+        className="text-[10px] font-semibold tracking-widest uppercase"
+        style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+      >
+        Visit the human
+      </span>
+    </a>
+  );
+}
+
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 function DarkFooter() {
+  const ref = useRef<HTMLElement>(null);
+  const [pos, setPos] = useState(50);
+
+  const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos(((e.clientX - rect.left) / rect.width) * 100);
+  };
+
+  const onMouseLeave = () => setPos(50);
+
   return (
-    <footer className="py-8 bg-[#0a0a0a] border-t border-white/10 pb-14">
-      <div className="max-w-5xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        <span className="text-sm text-white/40">
-          {"© " + new Date().getFullYear() + " Angelo · rhaiymondo.com"}
+    <footer
+      ref={ref}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="fixed bottom-0 left-0 right-0 z-0"
+      style={{
+        background: `linear-gradient(${GRADIENT_COLORS})`,
+        backgroundSize: "200% 100%",
+        backgroundPosition: `${pos}% 0%`,
+        transition: "background-position 0.1s ease",
+      }}
+    >
+      <div className="max-w-5xl mx-auto px-8 py-4 flex items-center justify-between">
+        <span className="text-sm font-medium text-black/80">
+          &copy; 2026 by Rhaymondo
         </span>
+
+        <div className="h-4 w-px bg-black/20 hidden md:block" />
+
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-sm text-white/40 hover:text-white transition-colors"
+          className="text-sm font-medium text-black/80 hover:text-black transition-all duration-200 cursor-pointer py-2 px-3 rounded-lg hover:bg-black/10 active:scale-95"
           aria-label="Back to top"
         >
           ↑ Back to top
@@ -421,15 +581,18 @@ function DarkFooter() {
 export default function RhaiymondoHome() {
   return (
     <>
+      <ScrollProgress />
+      <SiteSwitcher />
       <DarkNav />
-      <main className="bg-[#0a0a0a]">
+      <DarkFooter />
+      <main className="relative z-10">
         <DarkHero />
         <DarkWork />
         <DarkAbout />
         <DarkApproach />
         <DarkContact />
       </main>
-      <DarkFooter />
+      <div className="h-[72px]" />
     </>
   );
 }

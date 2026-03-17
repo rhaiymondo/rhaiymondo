@@ -29,8 +29,14 @@ export default function Nav() {
 
         {/* Right: nav links */}
         <nav className="flex items-center gap-6">
-          <a href="#work" className="text-sm text-black/60 hover:text-black transition-colors">Work</a>
-          <a href="#about" className="text-sm text-black/60 hover:text-black transition-colors">About</a>
+          <a href="#work" className="text-sm text-black/60 hover:text-black transition-colors relative group py-1">
+            Work
+            <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-black transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#about" className="text-sm text-black/60 hover:text-black transition-colors relative group py-1">
+            About
+            <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-black transition-all duration-300 group-hover:w-full" />
+          </a>
         </nav>
       </div>
     </header>
