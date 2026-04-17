@@ -13,15 +13,18 @@ const TICKER = [
 ];
 
 const PROJECT_URLS = [
-  "https://wetransfer.com",
-  "https://blog.wetransfer.com",
+  "https://wetransfer.com/explore",
+  "https://wetransfer.com/blog",
   "https://thesupportingact.org",
-  "https://wetransfer.com/ideas",
-  "https://wetransfer.com",
+  "https://wetransfer.com/ideas-report",
+  "https://wetransfer.com/emerging-creative-hubs-index-2022",
+  "https://colorpush.wetransfer.com/",
 ];
 
 function pickRandom(arr: string[]): string {
-  return arr[Math.floor(Math.random() * arr.length)];
+  // Use crypto.getRandomValues for better randomness
+  const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1);
+  return arr[Math.floor(randomIndex * arr.length)];
 }
 
 export default function Hero() {
