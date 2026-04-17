@@ -123,8 +123,8 @@ export default function Hero() {
 
 
       </div>
-      {/* Bottom marquee */}
-      <div className="absolute bottom-0 left-0 w-full py-4 border-t border-b border-black/10">
+      {/* Bottom marquee - hidden */}
+      {/* <div className="absolute bottom-0 left-0 w-full py-4 border-t border-b border-black/10">
         <Marquee className="[--duration:40s] [--gap:3rem]" repeat={4}>
           {TICKER.map((item, i) => (
             <span key={i} className="text-xs font-medium text-black/50 mx-4">
@@ -132,7 +132,7 @@ export default function Hero() {
             </span>
           ))}
         </Marquee>
-      </div>
+      </div> */}
     </section>
   );
 }
