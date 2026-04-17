@@ -358,6 +358,7 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
           fill 
           className="object-cover" 
           priority
+          quality={90}
         />
       </motion.div>
     </div>
@@ -397,7 +398,7 @@ function DarkWork() {
         {/* Featured image with parallax */}
         <ScrollReveal delay={0.3}>
           <ParallaxImage 
-            src="https://images.unsplash.com/photo-1738956952892-7553e0327906?q=80&w=2069&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1738956952892-7553e0327906?q=100&w=3840&auto=format&fit=crop" 
             alt="Bruiloft.cc" 
           />
         </ScrollReveal>
