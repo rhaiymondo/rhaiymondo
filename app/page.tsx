@@ -7,6 +7,12 @@ import Image from "next/image";
 import RhaiymondoHome from "@/components/sites/RhaiymondoHome";
 import RhaymondoHome from "@/components/sites/RhaymondoHome";
 
+// Hide default cursor for custom cursor experience
+const CURSOR_HIDE_CSS = `
+  * { cursor: none !important; }
+  a, button { cursor: none !important; }
+`;
+
 const GRADIENT_BG = `radial-gradient(at 72% 60%, hsla(185,69%,76%,1) 0px, transparent 50%),
   radial-gradient(at 37% 2%, hsla(333,88%,79%,1) 0px, transparent 50%),
   radial-gradient(at 3% 34%, hsla(70,74%,71%,1) 0px, transparent 50%),
@@ -394,6 +400,8 @@ function SplashAnimation() {
       </div>
 
       <style>{`
+        * { cursor: none !important; }
+        a, button, input, textarea, select { cursor: none !important; }
         .typewriter-cursor {
           animation: blink 0.7s step-end infinite;
         }
