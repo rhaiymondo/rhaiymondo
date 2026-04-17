@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { WinkCursor } from "wink-cursor";
+import dynamic from "next/dynamic";
 import "./globals.css";
+
+const WinkCursor = dynamic(() => import("wink-cursor"), { ssr: false });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
