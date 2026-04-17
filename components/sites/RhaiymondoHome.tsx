@@ -408,7 +408,8 @@ function DarkWork() {
         </div>
       </div>
 
-      <ScrollReveal className="px-8 mb-12 max-w-5xl mx-auto">
+      {/* More projects carousel - hidden for now */}
+      {/* <ScrollReveal className="px-8 mb-12 max-w-5xl mx-auto">
         <p className="text-white/30 text-sm tracking-[0.3em] uppercase text-center">More projects</p>
       </ScrollReveal>
       <Marquee pauseOnHover repeat={3} className="[--duration:30s]">
@@ -424,7 +425,7 @@ function DarkWork() {
             </div>
           </div>
         ))}
-      </Marquee>
+      </Marquee> */}
     </section>
   );
 }
