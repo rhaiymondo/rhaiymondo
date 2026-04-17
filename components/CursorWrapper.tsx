@@ -1,9 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const WinkCursor = dynamic(() => import("wink-cursor"), { ssr: false });
+import { useEffect } from "react";
 
 export default function CursorWrapper() {
-  return <WinkCursor />;
+  useEffect(() => {
+    import("wink-cursor").catch(console.error);
+  }, []);
+
+  return null;
 }
