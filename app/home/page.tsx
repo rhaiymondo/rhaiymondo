@@ -1,7 +1,10 @@
-import RhaiymondoHome from "@/components/sites/RhaiymondoHome";
-import RhaymondoHome from "@/components/sites/RhaymondoHome";
+import { Suspense } from "react";
+import HomePage from "./HomePage";
 
 export default function Home() {
-  const site = process.env.NEXT_PUBLIC_SITE;
-  return site === "RHAYMONDO" ? <RhaymondoHome /> : <RhaiymondoHome />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <HomePage />
+    </Suspense>
+  );
 }

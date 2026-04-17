@@ -172,7 +172,7 @@ function DarkNav() {
 
         {/* Center: Wordmark */}
         <a
-          href="/home"
+          href="/"
           className="absolute left-1/2 -translate-x-1/2 font-bold text-xl tracking-tight"
           aria-label="Rhaiymondo"
         >

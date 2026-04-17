@@ -23,7 +23,7 @@ export default function Nav() {
         </a>
 
         {/* Center: Wordmark */}
-        <a href="/home" className="absolute left-1/2 -translate-x-1/2 font-bold text-black text-xl tracking-tight" aria-label="Rhaymondo">
+        <a href="/" className="absolute left-1/2 -translate-x-1/2 font-bold text-black text-xl tracking-tight" aria-label="Rhaymondo">
           Rhaymondo
         </a>
 
