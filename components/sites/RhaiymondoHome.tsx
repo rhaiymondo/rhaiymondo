@@ -542,7 +542,7 @@ function DarkContact() {
             <p className="text-white/50 text-base leading-relaxed mb-8">
               Iterate faster and integrate AI in your products. Let&apos;s find your Rhaiymondo.
             </p>
-            <GradientButton href="#" className={GRADIENT_BORDER}>
+            <GradientButton href="mailto:angelo@rhaymondo.com" className={GRADIENT_BORDER}>
               Get in touch →
             </GradientButton>
           </ScrollReveal>
