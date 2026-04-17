@@ -482,7 +482,7 @@ function DarkContact() {
             <p className="text-white/50 text-base leading-relaxed mb-8">
               The human behind it. Available for consulting, collaboration, and interesting problems.
             </p>
-            <a href="https://rhaymondo.com" target="_blank" rel="noopener noreferrer" className={ctaPrimaryStyle}>
+            <a href="https://www.rhaymondo.com/?bypass=true&site=RHAYMONDO" target="_blank" rel="noopener noreferrer" className={ctaPrimaryStyle}>
               rhaymondo.com ↗
             </a>
           </ScrollReveal>
@@ -515,7 +515,7 @@ function DarkContact() {
 function SiteSwitcher() {
   return (
     <a
-      href="https://rhaymondo.com"
+      href="https://www.rhaymondo.com/?bypass=true&site=RHAYMONDO"
       aria-label="Visit Rhaymondo — the human"
       className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center py-5 px-[10px] rounded-r-xl bg-[#0a0a0a] border-r border-t border-b border-white/10 text-white/30 hover:text-white/70 hover:translate-x-1 transition-all duration-300 cursor-pointer"
     >
