@@ -381,6 +381,14 @@ function DarkWork() {
               A modern wedding website platform that allows couples to create beautiful, personalized 
               wedding websites. Features include RSVP management, photo galleries, and customizable templates.
             </p>
+            <a
+              href="https://bruiloft.cc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-white/40 text-sm mt-6 border-b border-white/20 hover:text-white hover:border-white/60 transition-all duration-300"
+            >
+              View project →
+            </a>
           </ScrollReveal>
         </div>
 
