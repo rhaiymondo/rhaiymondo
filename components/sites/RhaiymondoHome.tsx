@@ -201,11 +201,15 @@ function DarkNav() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 const TICKER = [
-  "AI-native development patterns from real production codebases",
-  "Built from Next.js, TypeScript, and testing expertise",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
+  "More projects coming soon...",
   "MSW Manager ships developer tooling to 80k+ weekly downloads",
-  "Bruiloft.cc — wedding website platform",
-  "Distilled from years of frontend engineering at scale",
 ];
 
 function DarkHero() {
@@ -326,12 +330,6 @@ function Tags({ tags }: { tags: string[] }) {
 
 const aiCarouselProjects = [
   { title: "MSW Manager", subline: "Developer tooling for Mock Service Worker. 80k+ weekly downloads.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", link: "" },
-  { title: "git-summarize", subline: "CLI that turns git log into a readable changelog. Powered by LLMs.", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d1b33 50%, #1a0a2e 100%)" },
-  { title: "use-keyboard-shortcut", subline: "React hook for declarative keyboard shortcuts with a cheatsheet overlay.", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d1b33 50%, #1a0a2e 100%)" },
-  { title: "Snippet Vault", subline: "Save and tag code snippets with syntax highlighting. Shareable via URL.", gradient: "linear-gradient(135deg, #0a1628 0%, #1a2a1a 50%, #0f2818 100%)" },
-  { title: "env-inspector", subline: "Browser devtools panel showing active env vars, masked values, and missing keys.", gradient: "linear-gradient(135deg, #1a1200 0%, #2a1f00 50%, #1a0f00 100%)" },
-  { title: "next-routes", subline: "Prints a full tree of all Next.js routes with layouts. One command.", gradient: "linear-gradient(135deg, #0a1a1a 0%, #001a2a 50%, #00141e 100%)" },
-  { title: "More projects coming soon...", subline: "", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%)" },
 ];
 
 function DarkWork() {
@@ -348,30 +346,33 @@ function DarkWork() {
         <div className="flex flex-col md:flex-row gap-16 md:gap-20 items-start">
           <ScrollReveal delay={0.1} className="flex-1 min-w-0">
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-none tracking-tight">
-              MSW Manager
+              Bruiloft.cc
             </h2>
             <p className="text-white/40 mt-4 text-base font-light leading-relaxed">
-              Developer tooling for Mock Service Worker
+              Wedding website platform
             </p>
-            <Tags tags={["TypeScript", "MSW", "Testing", "DX", "Open Source"]} />
+            <Tags tags={["Next.js", "React", "TypeScript", "Platform"]} />
           </ScrollReveal>
 
           <ScrollReveal delay={0.22} className="flex-1 min-w-0 md:pt-[3.5rem]">
             <p className="text-white/50 text-sm leading-relaxed">
-              A toolkit for managing MSW (Mock Service Worker) handler scenarios in development and
-              testing environments. Ships a browser devtools panel, scenario switching, and
-              persistent state — trusted by 80k+ weekly npm downloads.
+              A modern wedding website platform that allows couples to create beautiful, personalized 
+              wedding websites. Features include RSVP management, photo galleries, and customizable templates.
             </p>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-white/40 text-sm mt-6 border-b border-white/20 hover:text-white hover:border-white/60 transition-all duration-300"
-            >
-              View project →
-            </a>
           </ScrollReveal>
         </div>
+
+        {/* Featured image */}
+        <ScrollReveal delay={0.3}>
+          <div className="mt-12 w-full rounded-2xl overflow-hidden relative aspect-[4/3]">
+            <Image 
+              src="https://images.unsplash.com/photo-1738956952892-7553e0327906?q=80&w=2069&auto=format&fit=crop" 
+              alt="Bruiloft.cc" 
+              fill 
+              className="object-cover" 
+            />
+          </div>
+        </ScrollReveal>
 
         <div className="py-16">
           <Separator className="bg-white/[0.06]" />
