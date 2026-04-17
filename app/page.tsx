@@ -1,5 +1,6 @@
 "use client";
 
+import { WinkCursor } from "wink-cursor";
 import { useRef, useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -196,6 +197,7 @@ function SplashAnimation() {
       className="relative h-screen w-screen overflow-hidden"
       style={{ isolation: "isolate", pointerEvents: interactable ? "auto" : "none" }}
     >
+      <WinkCursor />
 
       {/* LEFT PANEL */}
       <div
