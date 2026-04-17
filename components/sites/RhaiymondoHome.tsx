@@ -296,8 +296,8 @@ function DarkHero() {
         </BlurFade>
       </div>
 
-      {/* Bottom marquee */}
-      <div className="absolute bottom-0 left-0 w-full py-4 border-t border-b border-white/10">
+      {/* Bottom marquee - hidden for now */}
+      {/* <div className="absolute bottom-0 left-0 w-full py-4 border-t border-b border-white/10">
         <Marquee className="[--duration:40s] [--gap:3rem]" repeat={4}>
           {TICKER.map((item, i) => (
             <span key={i} className="text-xs font-medium text-white/40 mx-4">
@@ -305,7 +305,7 @@ function DarkHero() {
             </span>
           ))}
         </Marquee>
-      </div>
+      </div> */}
     </section>
   );
 }
