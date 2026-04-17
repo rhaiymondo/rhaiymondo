@@ -37,7 +37,7 @@ function EmploymentPill() {
 function SiteSwitcher() {
   return (
     <a
-      href="https://rhaiymondo.com"
+      href="https://www.rhaymondo.com/?bypass=true&site=RHAIYMONDO"
       aria-label="Visit Rhaiymondo — the AI"
       className="fixed right-0 top-1/2 z-40 flex flex-col items-center py-5 px-[10px] rounded-l-xl bg-black text-white/50 hover:text-white translate-x-[4px] hover:translate-x-0 -translate-y-1/2 transition-all duration-300 cursor-pointer"
     >

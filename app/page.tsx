@@ -141,8 +141,8 @@ function SplashAnimation() {
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const leftHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAYMONDO" : "https://rhaymondo.com/?bypass=true";
-  const rightHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAIYMONDO" : "https://rhaiymondo.com/?bypass=true";
+  const leftHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAYMONDO" : "https://www.rhaymondo.com/?bypass=true&site=RHAYMONDO";
+  const rightHref = IS_LOCAL_DEV ? "/?bypass=true&site=RHAIYMONDO" : "https://www.rhaymondo.com/?bypass=true&site=RHAIYMONDO";
 
   const startCountdown = useCallback((side: "left" | "right") => {
     setCountdown(3);

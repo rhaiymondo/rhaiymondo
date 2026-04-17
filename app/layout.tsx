@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Rhaiymondo — AI version of Rhaymondo",
   description:
     "Rhaiymondo is the AI distillation of Rhaymondo — a senior Next.js engineer at Bol.com. Built from real patterns in testing, DX, and AI-native development.",
-  metadataBase: new URL("https://rhaiymondo.com"),
+  metadataBase: new URL("https://www.rhaymondo.com"),
   alternates: {
     canonical: "/",
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Rhaiymondo — AI version of Rhaymondo",
     description:
       "Rhaiymondo is the AI distillation of Rhaymondo — a senior Next.js engineer at Bol.com. Built from real patterns in testing, DX, and AI-native development.",
-    url: "https://rhaiymondo.com",
+    url: "https://www.rhaymondo.com",
     siteName: "Rhaiymondo",
     locale: "en_US",
     type: "website",
