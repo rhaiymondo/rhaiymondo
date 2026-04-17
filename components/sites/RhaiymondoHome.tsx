@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useScroll, useInView, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Marquee } from "@/components/ui/marquee";
@@ -332,6 +332,38 @@ const aiCarouselProjects = [
   { title: "MSW Manager", subline: "Developer tooling for Mock Service Worker. 80k+ weekly downloads.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", link: "" },
 ];
 
+// Parallax image component
+function ParallaxImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.15, 1.1]);
+  
+  return (
+    <div 
+      ref={ref} 
+      className="mt-12 w-full rounded-2xl overflow-hidden relative aspect-[4/3]"
+    >
+      <motion.div 
+        style={{ y, scale }}
+        className="absolute inset-0 w-full h-[120%] -top-[10%]"
+      >
+        <Image 
+          src={src} 
+          alt={alt} 
+          fill 
+          className="object-cover" 
+          priority
+        />
+      </motion.div>
+    </div>
+  );
+}
+
 function DarkWork() {
   return (
     <section id="work" className="py-32 bg-[#0a0a0a]">
@@ -362,16 +394,12 @@ function DarkWork() {
           </ScrollReveal>
         </div>
 
-        {/* Featured image */}
+        {/* Featured image with parallax */}
         <ScrollReveal delay={0.3}>
-          <div className="mt-12 w-full rounded-2xl overflow-hidden relative aspect-[4/3]">
-            <Image 
-              src="https://images.unsplash.com/photo-1738956952892-7553e0327906?q=80&w=2069&auto=format&fit=crop" 
-              alt="Bruiloft.cc" 
-              fill 
-              className="object-cover" 
-            />
-          </div>
+          <ParallaxImage 
+            src="https://images.unsplash.com/photo-1738956952892-7553e0327906?q=80&w=2069&auto=format&fit=crop" 
+            alt="Bruiloft.cc" 
+          />
         </ScrollReveal>
 
         <div className="py-16">
