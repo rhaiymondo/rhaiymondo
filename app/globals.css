@@ -227,3 +227,13 @@
   background-size: 300% 300%;
   animation: gradientShift 6s ease infinite;
 }
+
+/* Hide default cursor - used with custom wink-cursor */
+* { cursor: none !important; }
+a, button, input, textarea, select { cursor: none !important; }
+
+/* Blend mode for cursor visibility on any background */
+div[style*="z-index: 999999"] {
+  mix-blend-mode: difference !important;
+  filter: invert(1);
+}
