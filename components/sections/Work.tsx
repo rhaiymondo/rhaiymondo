@@ -19,11 +19,13 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 const carouselProjects = [
+  { title: "Bruiloft.cc", subline: "Wedding website platform. Built with Next.js.", image: "https://images.unsplash.com/photo-1738956952892-7553e0327906?q=80&w=2069&auto=format&fit=crop" },
   { title: "WeTransfer Marketing Site", subline: "Main marketing website for WeTransfer. Built with Next.js.", image: "/projects/web-ui.jpg" },
   { title: "WeTransfer Blog", subline: "Editorial blog platform for WeTransfer. Built with Next.js.", image: "/projects/ideas-blog.jpg" },
   { title: "Creative Hubs Index", subline: "Interactive index of the most creative cities worldwide. Built with Gatsby.", image: "/projects/creative-hubs.png" },
   { title: "Color Push", subline: "A creative escape during file transfers. Interactive color experience.", image: "/projects/color-push.jpg" },
   { title: "Ideas Reports", subline: "Annual creativity insights report for WeTransfer. Design-forward editorial.", image: "/projects/ideas-report.jpg" },
+  { title: "More projects coming soon...", subline: "", image: "" },
 ];
 
 export default function Work() {

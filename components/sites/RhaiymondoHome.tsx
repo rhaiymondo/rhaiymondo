@@ -204,6 +204,7 @@ const TICKER = [
   "AI-native development patterns from real production codebases",
   "Built from Next.js, TypeScript, and testing expertise",
   "MSW Manager ships developer tooling to 80k+ weekly downloads",
+  "Bruiloft.cc — wedding website platform",
   "Distilled from years of frontend engineering at scale",
 ];
 
@@ -324,11 +325,13 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 const aiCarouselProjects = [
-  { title: "git-summarize", subline: "CLI that turns git log into a readable changelog. Powered by LLMs.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)" },
+  { title: "MSW Manager", subline: "Developer tooling for Mock Service Worker. 80k+ weekly downloads.", gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", link: "" },
+  { title: "git-summarize", subline: "CLI that turns git log into a readable changelog. Powered by LLMs.", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d1b33 50%, #1a0a2e 100%)" },
   { title: "use-keyboard-shortcut", subline: "React hook for declarative keyboard shortcuts with a cheatsheet overlay.", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d1b33 50%, #1a0a2e 100%)" },
   { title: "Snippet Vault", subline: "Save and tag code snippets with syntax highlighting. Shareable via URL.", gradient: "linear-gradient(135deg, #0a1628 0%, #1a2a1a 50%, #0f2818 100%)" },
   { title: "env-inspector", subline: "Browser devtools panel showing active env vars, masked values, and missing keys.", gradient: "linear-gradient(135deg, #1a1200 0%, #2a1f00 50%, #1a0f00 100%)" },
   { title: "next-routes", subline: "Prints a full tree of all Next.js routes with layouts. One command.", gradient: "linear-gradient(135deg, #0a1a1a 0%, #001a2a 50%, #00141e 100%)" },
+  { title: "More projects coming soon...", subline: "", gradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%)" },
 ];
 
 function DarkWork() {
