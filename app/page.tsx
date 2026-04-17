@@ -402,6 +402,10 @@ function SplashAnimation() {
       <style>{`
         * { cursor: none !important; }
         a, button, input, textarea, select { cursor: none !important; }
+        div[style*="z-index: 999999"] {
+          mix-blend-mode: difference !important;
+          filter: invert(1);
+        }
         .typewriter-cursor {
           animation: blink 0.7s step-end infinite;
         }
