@@ -189,7 +189,7 @@ function DarkNav() {
             About
             <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
           </a>
-          <GradientButton href="mailto:hi@rhaiymondo.com" className="text-sm font-semibold px-4 py-2 rounded-lg border-2 border-transparent">
+          <GradientButton href="mailto:angelo@rhaymondo.com" className="text-sm font-semibold px-4 py-2 rounded-lg border-2 border-transparent hidden md:inline-flex">
             Talk to Rh<span className="opacity-0" style={{ fontSize: 0 }}>ai</span>aiymondo
           </GradientButton>
         </nav>
